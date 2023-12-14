@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5abd2dff-47ae-4cc8-861a-d163db83f21e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/bard/templates/topic_details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/tests/otnoshenie-dvuh-chisl.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ZR9hawRjnfHqhSqhrQSCGd2PIM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Tasher/PycharmProjects/my_site/__/coolsite"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Tasher\PycharmProjects\testsite\bard\static\images" />
+      <recent name="C:\Users\Tasher\PycharmProjects\testsite\bard\static\css" />
+      <recent name="C:\Users\Tasher\PycharmProjects\testsite\templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Tasher\PycharmProjects\testsite\bard" />
+      <recent name="C:\Users\Tasher\PycharmProjects\testsite\templates" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JavaScript Debug.otnoshenie-dvuh-chisl.html">
+    <configuration name="1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/testsite/bard/templates/tests/1.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="otnoshenie-dvuh-chisl.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/testsite/bard/templates/tests/otnoshenie-dvuh-chisl.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
+    <configuration name="testsite" type="Python.DjangoServer" factoryName="Django server">
+      <module name="testsite" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.otnoshenie-dvuh-chisl.html" />
+        <item itemvalue="JavaScript Debug.1.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5abd2dff-47ae-4cc8-861a-d163db83f21e" name="Changes" comment="" />
+      <created>1702374144474</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1702374144474</updated>
+      <workItem from="1702374171002" duration="3010000" />
+      <workItem from="1702462998833" duration="668000" />
+      <workItem from="1702484948493" duration="696000" />
+      <workItem from="1702574268338" duration="1886000" />
+      <workItem from="1702582452257" duration="311000" />
+      <workItem from="1702583431607" duration="463000" />
+      <workItem from="1702584268280" duration="5201000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

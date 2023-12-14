@@ -1,6 +1,15 @@
 from django.db import models
 from django.urls import reverse
 
+
+from django.db import models
+
+
+class MathTopic(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+
+
 class Women(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")

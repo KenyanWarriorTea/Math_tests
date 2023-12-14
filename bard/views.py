@@ -10,6 +10,12 @@ from .utils import *
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+from django.shortcuts import render
+from .models import MathTopic
+
+def math_topic_details(request, topic_id):
+    topic = MathTopic.objects.get(pk=topic_id)
+    return render(request, 'topic_details.html', {'topic': topic})
 
 @login_required
 def profile(request):

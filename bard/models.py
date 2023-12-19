@@ -1,8 +1,30 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
-
 from django.db import models
+
+
+class Test(models.Model):
+    title = models.CharField(max_length=200)
+    # другие поля, например, описание
+
+
+class Question(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    text = models.TextField()
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.TextField()
+    is_correct = models.BooleanField(default=False)
+
+
+class UserTestResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    score = models.IntegerField()
 
 
 class MathTopic(models.Model):

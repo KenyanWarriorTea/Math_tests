@@ -2,13 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5abd2dff-47ae-4cc8-861a-d163db83f21e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/bard/templates/topic_details.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bard/templates/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bard/templates/tests/otnoshenie-dvuh-chisl.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/topic_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/topic_details.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
@@ -42,15 +46,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Tasher/PycharmProjects/my_site/__/coolsite"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Tasher/PycharmProjects/testsite&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Tasher\PycharmProjects\testsite\bard\static\images" />
@@ -62,7 +66,7 @@
       <recent name="C:\Users\Tasher\PycharmProjects\testsite\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.otnoshenie-dvuh-chisl.html">
+  <component name="RunManager" selected="Django Server.testsite">
     <configuration name="1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/testsite/bard/templates/tests/1.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
@@ -114,6 +118,15 @@
       <workItem from="1702582452257" duration="311000" />
       <workItem from="1702583431607" duration="463000" />
       <workItem from="1702584268280" duration="5201000" />
+      <workItem from="1702634656041" duration="4543000" />
+      <workItem from="1702715122203" duration="3947000" />
+      <workItem from="1702841420662" duration="593000" />
+      <workItem from="1702901009621" duration="23000" />
+      <workItem from="1702901048756" duration="322000" />
+      <workItem from="1702901710056" duration="129000" />
+      <workItem from="1702922574545" duration="4644000" />
+      <workItem from="1702975135947" duration="7198000" />
+      <workItem from="1702984173108" duration="2981000" />
     </task>
     <servers />
   </component>

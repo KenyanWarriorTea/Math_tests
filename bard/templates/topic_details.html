@@ -58,12 +58,14 @@
 	{% block breadcrumbs %}
 	{% endblock %}
 <head>
+     {% csrf_token %}
   <meta charset="UTF-8">
   <title>Test Site</title>
 </head>
 <body>
     <h1>{{ topic.title }}</h1>
     <p>{{ topic.description|linebreaksbr }}</p>
+    <a href="/test/{{ topic.id }}">Пройти тест</a>
 </body>
 </td>
 </html>

@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
 class Test(models.Model):
@@ -29,7 +30,7 @@ class UserTestResult(models.Model):
 
 class MathTopic(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = RichTextField()
 
 
 class Women(models.Model):

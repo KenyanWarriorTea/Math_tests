@@ -7,7 +7,22 @@ html, body {
 	width: 100%;
 	color: #444;
 }
+ul.tests li {
+  background-color: #f0f0f0; /* цвет фона для каждого бокса */
+  border: 1px solid #ddd; /* граница вокруг каждого бокса */
+  padding: 10px; /* внутренний отступ внутри каждого бокса */
+  margin-bottom: 5px; /* отступ между боксами */
+  list-style-type: none; /* убираем маркеры списка */
+}
 
+ul.tests li a {
+  color: black; /* цвет текста ссылок */
+  text-decoration: none; /* убираем подчеркивание текста ссылок */
+}
+
+ul.tests li a:hover {
+  color: #555; /* цвет текста ссылок при наведении */
+}
 a {
 	color: #0059b2;
 	text-decoration: none;
@@ -402,7 +417,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 	border-radius: 30px;
 }
 .list-pages .page-num:hover {
-	box-shadow: 3px 3px 1px #d0d0d0; 
+	box-shadow: 3px 3px 1px #d0d0d0;
 }
 .list-pages .page-num-selected {
 	border: none;
@@ -410,5 +425,5 @@ ul.lang-list li a:hover {color: #fdc073;}
 	font-size: 20px;
 }
 .list-pages .page-num-selected:hover {
-	box-shadow: none; 
+	box-shadow: none;
 }

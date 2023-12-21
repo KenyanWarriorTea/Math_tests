@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5abd2dff-47ae-4cc8-861a-d163db83f21e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/testsite.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/testsite.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/bard/static/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/test.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/templates/topic_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/topic_details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,16 +47,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Tasher/PycharmProjects/testsite",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Tasher/PycharmProjects/testsite&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Tasher\PycharmProjects\testsite\bard\static\images" />
@@ -120,6 +130,7 @@
       <workItem from="1702975135947" duration="7198000" />
       <workItem from="1702984173108" duration="3607000" />
       <workItem from="1703014490981" duration="2144000" />
+      <workItem from="1703181150157" duration="7110000" />
     </task>
     <servers />
   </component>

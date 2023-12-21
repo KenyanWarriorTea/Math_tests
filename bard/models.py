@@ -8,7 +8,7 @@ from ckeditor.fields import RichTextField
 
 class Test(models.Model):
     title = models.CharField(max_length=200)
-    # другие поля, например, описание
+    # что то там
 
 
 class Question(models.Model):

@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/testsite.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/testsite.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/bard/static/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/base.html" afterDir="false" />
@@ -15,6 +16,8 @@
       <change beforePath="$PROJECT_DIR$/bard/templates/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/templates/topic_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/bard/templates/topic_details.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bard/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/bard/views.py" afterDir="false" />
+=======
+>>>>>>> c6293e9569220fd06540768cbaa09a73f2f1be67
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

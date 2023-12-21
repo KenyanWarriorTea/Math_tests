@@ -64,7 +64,7 @@
 </head>
 <body>
     <h1>{{ topic.title }}</h1>
-    <p>{{ topic.description|linebreaksbr }}</p>
+    <p>{{ topic.description| safe}}</p>
     <a href="/test/{{ topic.id }}">Пройти тест</a>
 </body>
 </td>

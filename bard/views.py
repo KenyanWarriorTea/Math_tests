@@ -3,15 +3,11 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
-from django.shortcuts import render
-from .models import Test
 from .forms import *
 from .utils import *
-
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
-from django.shortcuts import render
 from .models import MathTopic
 
 from django.shortcuts import render

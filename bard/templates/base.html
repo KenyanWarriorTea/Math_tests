@@ -1,8 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-	<title>{{title}}</title>
+  <meta charset="UTF-8">
+  <title>Test Site</title>
 	<link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
@@ -10,8 +11,6 @@
 </head>
 
 <body>
-<table class="table-page" border=0 cellpadding="0" cellspacing="0">
-<tr><td valign=top>
 {% block mainmenu %}
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
@@ -56,12 +55,6 @@
 <!-- Конец Sidebar'а -->
 <td valign="top" class="content">
 	<!-- Хлебные крошки -->
-	{% block breadcrumbs %}
-	{% endblock %}
-<head>
-  <meta charset="UTF-8">
-  <title>Test Site</title>
-</head>
 <body>
   <header>
     <h1>Математика</h1>
@@ -70,7 +63,7 @@
   <section class="tests">
     <h2>Тесты</h2>
 
-    <ul>
+    <ul class="tests">
         <li><a href="/topics/1">Тема 1: Отношение двух чисел</a></li>
         <li><a href="/topics/2">Тема 2: Деление чисел в данном отношении</a></li>
         <li><a href="/topics/3">Тема 3: Процентное отношение двух чисел</a></li>
@@ -109,47 +102,4 @@
         <li><a href="/topics/37">Тема 37: Зависимость между величинами. Способы задания зависимостей между величинами</a></li>
         <li><a href="/topics/38">Тема 38: Система линейных уравнений с двумя переменными</a></li>
     </ul>
-  </section>
-
-  <div class="content">
-  </div>
-
-
-</body>
-
-<!-- Блок контента -->
-	<div class="content-text">
-{% block content %}
-{% endblock %}
-{% if page_obj.has_other_pages %}
-<nav class="list-pages">
-    <ul>
-{% if page_obj.has_previous %}
-<li class="page-num">
-	<a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
-</li>
-{% endif %}
-
-        {% for p in paginator.page_range %}
-		{% if page_obj.number == p %}
-        <li class="page-num page-num-selected">{{ p }}</li>
-		{% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
-        <li class="page-num">
-            <a href="?page={{ p }}">{{ p }}</a>
-        </li>
-		{% endif %}
-        {% endfor %}
-
-{% if page_obj.has_next %}
-<li class="page-num">
-	<a href="?page={{ page_obj.next_page_number }}">&gt;</a>
-</li>
-{% endif %}
-
-    </ul>
-</nav>
-{% endif %}
-	</div>
-
-</body>
 </html>

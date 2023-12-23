@@ -82,6 +82,23 @@ div.article-panel {
 .submit-button:hover {
     background-color: #45a049;
 }
+.custom-test-button {
+    display: inline-block; /* Делаем ссылку блочно-строчным элементом */
+    padding: 10px 20px; /* Добавляем внутренние отступы */
+    background-color: #007bff; /* Цвет фона */
+    color: white; /* Цвет текста */
+    text-align: center;
+    text-decoration: none; /* Убираем подчеркивание текста */
+    border-radius: 5px; /* Скругляем углы */
+    font-weight: bold; /* Делаем текст жирным */
+    transition: background-color 0.3s, color 0.3s; /* Добавляем плавный переход для цвета фона и текста */
+}
+
+.custom-test-button:hover {
+    background-color: #0056b3; /* Меняем цвет фона при наведении */
+    color: #ffd700; /* Меняем цвет текста при наведении */
+}
+
 div.article-panel p.first {
     margin: 0;
     float: left;

@@ -7,6 +7,9 @@ from .forms import *
 from .utils import *
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .models import TestResult, Test
+from django.http import JsonResponse
 
 from .models import MathTopic
 
@@ -55,6 +58,7 @@ class Home(DataMixin, ListView):
         c_def = self.get_user_context(title="Главная страница")
         return dict(list(context.items()) + list(c_def.items()))
 
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
@@ -66,7 +70,7 @@ class RegisterUser(DataMixin, CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Регистрация")
+        c_def = self.get_user_context(title="Регистрация / Тіркелу")
         return dict(list(context.items()) + list(c_def.items()))
 
     def form_valid(self, form):
@@ -81,7 +85,7 @@ class LoginUser(DataMixin, LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Авторизация")
+        c_def = self.get_user_context(title="Авторизация / Авторландыру")
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_success_url(self):
@@ -91,6 +95,42 @@ class LoginUser(DataMixin, LoginView):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+def process_test(request, test_id):
+    if request.method == 'POST':
+        try:
+            # Получите объект теста, который пользователь прошел
+            test = Test.objects.get(id=test_id)
+            user = request.user
+
+            # Ваша логика для вычисления баллов пользователя
+            score = 0
+
+            # Предположим, что ответы пользователя хранятся в форме в request.POST
+            for question in test.question_set.all():
+                user_answer = request.POST.get(str(question.id))  # Получить ответ пользователя для вопроса
+                correct_answer = question.answer_set.filter(is_correct=True).first()  # Получить правильный ответ на вопрос
+                if user_answer == correct_answer.text:
+                    score += 1  # Увеличить балл, если ответ правильный
+
+            # Попробуйте найти запись в модели TestResult для данного пользователя и теста
+            user_test_result = TestResult.objects.filter(user=user, test=test).first()
+
+            # Если запись уже существует, обновите ее
+            if user_test_result:
+                user_test_result.score = score
+                user_test_result.save()
+            else:
+                # Иначе создайте новую запись
+                TestResult.objects.create(user=user, test=test, score=score)
+
+            return redirect('profile')  # Перенаправьте пользователя на страницу профиля после прохождения теста
+
+        except Test.DoesNotExist:
+            # Обработайте случай, если тест с заданным ID не существует
+            return redirect('test_view')  # Или выполните другую логику обработки ошибки
+
 
 class Home2(DataMixin, ListView):
     model = Women

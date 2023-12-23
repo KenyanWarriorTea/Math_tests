@@ -67,7 +67,20 @@
     <h1>{{ topic.title }}</h1>
     <p>{{ topic.description| safe}}</p>
     <h1><a href="/test/{{ topic.id }}" class="custom-test-button">Пройти тест</a></h1>
+    <script>
+    // Получите значение topic.id (замените его на актуальное значение)
+    var topicId = {{ topic.id }}; // Пример: 40
 
+    // Определите, на каком языке отображать текст
+    var lang = (topicId > 38) ? 'kk' : 'ru';
+
+    // Установите атрибут lang для html-элемента
+    document.documentElement.lang = lang;
+
+    // Вставьте текст на соответствующем языке
+    var contentElement = document.getElementById('content');
+    contentElement.textContent = (lang === 'kk') ? 'Текст на казахском' : 'Текст на русском';
+</script>
 </body>
 </td>
 </html>

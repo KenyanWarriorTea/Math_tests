@@ -12,5 +12,6 @@ urlpatterns = [
     path('test/<int:test_id>/', views.test_view, name='test_view'),
     path('register/', RegisterUser.as_view(), name='register'),
     path('profile/', profile, name='profile'),
-    path('kz/', Home2.as_view(), name="home2")
+    path('kz/', Home2.as_view(), name="home2"),
+    path('process_test/<int:test_id>/', process_test, name='process_test'),
 ]

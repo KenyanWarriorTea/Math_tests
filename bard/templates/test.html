@@ -1,13 +1,12 @@
 {% load static %}
 <html>
 <head>
-	<title>{{ topic.title }}</title>
-	<link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>{{ topic.title }}</title>
+    <link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
+    <link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 <table class="table-page" border=0 cellpadding="0" cellspacing="0">
 <tr><td valign=top>
@@ -57,24 +56,55 @@
 	<!-- Хлебные крошки -->
 	{% block breadcrumbs %}
 	{% endblock %}
-<head>
-  <meta charset="UTF-8">
-  <title>Test Site</title>
-</head>
-<body>
-    {% csrf_token %}
-    {% for question in questions %}
-        <div class="question-container">
-            <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text }}</p>
-            {% for answer in question.answer_set.all %}
-                <input type="radio" name="{{ question.id }}" value="{{ answer.text }}" id="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
-                <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text }}</label><br>
-            {% endfor %}
-        </div>
+{% block content %}
+<div class="test-page">
+    <h1>{{ test.title }}</h1>
+    <form method="post" action="{% url 'process_test' test.id %}" id="test-form">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div class="question-container">
+                <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text }}</p>
+                {% for answer in question.answer_set.all %}
+                    <input type="radio" name="{{ question.id }}" value="{{ answer.text }}" id="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                    <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text }}</label><br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="submit-button">Отправить ответы</button>
+    </form>
+
+    {% if user_test_result %}
+    <h2>Результаты тестов:</h2>
+<ul>
+    {% for test_result in user.testresult_set.all %}
+        <li>Тест "{{ test_result.test.title }}": Баллы - {{ test_result.score }}</li>
     {% endfor %}
-    <button type="submit" class="submit-button">Отправить ответы</button>
+</ul>
+    {% endif %}
+</div>
+{% endblock %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('test-form');
+    const userScore = document.getElementById('user-score');
 
-</body>
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(form);
 
-
-<html>
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Обновляем результаты на странице
+            userScore.textContent = `Вы набрали ${data.score} баллов из {{ total_score }} возможных.`;
+        })
+        .catch(error => console.error('Ошибка:', error));
+    });
+});
+</script>

@@ -9,7 +9,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import TestResult, Test
-from django.http import JsonResponse
+
 
 from .models import MathTopic
 
@@ -37,15 +37,21 @@ def test_view(request, test_id):
 
 @login_required
 def profile(request):
-    # Retrieve user information
     user = request.user
-    # Additional information based on user's status (teacher/student)
-    # ...
+    tests = Test.objects.all()  # Получите все тесты, которые вам нужны для профиля пользователя
+
+    # Создайте словарь, где ключами будут тесты, а значениями будут результаты пользователя
+    test_results = {}
+    for test in tests:
+        user_test_result = TestResult.objects.filter(user=user, test=test).first()
+        test_results[test] = user_test_result
+
     context = {
         'user': user,
-        # Include other relevant information in the context
-        # ...
+        'tests': tests,
+        'test_results': test_results,
     }
+
     return render(request, 'profile.html', context)
 
 
@@ -96,41 +102,36 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
-
+@login_required
 def process_test(request, test_id):
     if request.method == 'POST':
         try:
-            # Получите объект теста, который пользователь прошел
             test = Test.objects.get(id=test_id)
             user = request.user
-
-            # Ваша логика для вычисления баллов пользователя
             score = 0
 
-            # Предположим, что ответы пользователя хранятся в форме в request.POST
             for question in test.question_set.all():
-                user_answer = request.POST.get(str(question.id))  # Получить ответ пользователя для вопроса
-                correct_answer = question.answer_set.filter(is_correct=True).first()  # Получить правильный ответ на вопрос
+                user_answer = request.POST.get(str(question.id))
+                correct_answer = question.answer_set.filter(is_correct=True).first()
                 if user_answer == correct_answer.text:
-                    score += 1  # Увеличить балл, если ответ правильный
+                    score += 1
 
-            # Попробуйте найти запись в модели TestResult для данного пользователя и теста
-            user_test_result = TestResult.objects.filter(user=user, test=test).first()
+            # Найти или создать запись в TestResult для данного пользователя и теста
+            user_test_result, created = TestResult.objects.get_or_create(user=user, test=test)
 
-            # Если запись уже существует, обновите ее
-            if user_test_result:
-                user_test_result.score = score
-                user_test_result.save()
-            else:
-                # Иначе создайте новую запись
-                TestResult.objects.create(user=user, test=test, score=score)
+            # Обновляем последний результат
+            user_test_result.score = score
 
-            return redirect('profile')  # Перенаправьте пользователя на страницу профиля после прохождения теста
+            # Обновляем лучший результат, если он лучше предыдущего
+            if score > user_test_result.best_score:
+                user_test_result.best_score = score
+
+            user_test_result.save()
+
+            return redirect('profile')
 
         except Test.DoesNotExist:
-            # Обработайте случай, если тест с заданным ID не существует
-            return redirect('test_view')  # Или выполните другую логику обработки ошибки
-
+            return redirect('profile')
 
 class Home2(DataMixin, ListView):
     model = Women

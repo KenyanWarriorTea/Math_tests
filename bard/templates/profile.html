@@ -69,12 +69,20 @@
     </ul>
 
     <h2>Результаты тестов:</h2>
-<ul>
-    {% for test_result in user.testresult_set.all %}
-        <li>Тест "{{ test_result.test.title }}": Баллы - {{ test_result.score }}</li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for test_result in user.testresult_set.all %}
+            <li>
+                Тест "{{ test_result.test.title }}":
+                <ul>
+                    <li>Последний балл: {{ test_result.score }}</li>
+                    <li>Лучший балл: {{ test_result.best_score }}</li>
+                </ul>
+            </li>
+        {% empty %}
+            <li>Результаты тестов отсутствуют.</li>
+        {% endfor %}
+    </ul>
 </body>
 
-</body>
+
 </html>

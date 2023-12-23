@@ -1,7 +1,9 @@
 {% load static %}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>{{ topic.title }}</title>
     <link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
     <link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
@@ -58,9 +60,10 @@
 	{% endblock %}
 {% block content %}
 <div class="test-page">
+    <div id="user-score"></div>
     <h1>{{ test.title }}</h1>
+
     <form method="post" action="{% url 'process_test' test.id %}" id="test-form">
-        {% csrf_token %}
         {% for question in questions %}
             <div class="question-container">
                 <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text }}</p>
@@ -69,42 +72,40 @@
                     <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text }}</label><br>
                 {% endfor %}
             </div>
-        {% endfor %}
-        <button type="submit" class="submit-button">Отправить ответы</button>
-    </form>
+     {% endfor %}
+    <button type="button" class="submit-button" id="submit-button">Отправить ответы</button>
+</form>
 
-    {% if user_test_result %}
-    <h2>Результаты тестов:</h2>
-<ul>
-    {% for test_result in user.testresult_set.all %}
-        <li>Тест "{{ test_result.test.title }}": Баллы - {{ test_result.score }}</li>
-    {% endfor %}
-</ul>
-    {% endif %}
-</div>
 {% endblock %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('test-form');
-    const userScore = document.getElementById('user-score');
+        const form = document.getElementById('test-form');
+        const userScore = document.getElementById('user-score');
+        const submitButton = document.getElementById('submit-button');
 
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(form);
+        // Функция для отправки данных и обновления результатов
+        function updateResults() {
+            const formData = new FormData(form);
 
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Обновляем результаты на странице
-            userScore.textContent = `Вы набрали ${data.score} баллов из {{ total_score }} возможных.`;
-        })
-        .catch(error => console.error('Ошибка:', error));
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Обновляем результаты на странице
+                userScore.textContent = `Вы набрали ${data.score} баллов из ${data.total_score} возможных.`;
+            })
+            .catch(error => console.error('Ошибка:', error));
+        }
+
+        // Добавляем обработчик для кнопки "Загрузить"
+        submitButton.addEventListener('click', updateResults);
+
+        // Вызываем функцию для обновления результатов при загрузке страницы
+        updateResults();
     });
-});
 </script>

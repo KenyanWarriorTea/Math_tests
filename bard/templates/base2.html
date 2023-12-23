@@ -21,7 +21,7 @@
 				{% if request.user.is_authenticated %}
                  <li class="last"><a href="{% url 'home' %}">Перевести сайт на русский язык</a> |<a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
                 {% else %}
-                <li class="last"><a href="{% url 'home' %}">Перевести сайт на русский язык</a> |<a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+                <li class="last"><a href="{% url 'home' %}">Перевести сайт на русский язык</a> |<a href="{% url 'register' %}">Тіркелу</a> | <a href="{% url 'login' %}">Кіру</a></li>
                  {% endif %}
 			</ul>
 			<div class="clear"></div>
@@ -35,9 +35,9 @@
 	<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
 {% if cat_selected == 0 %}
-		<li class="selected">Все темы</li>
+		<li class="selected">Барлық тақырыптар</li>
 {% else %}
-		<li><a href="{% url 'home' %}">Все темы</a></li>
+		<li><a href="{% url 'home' %}">Барлық тақырыптар</a></li>
 {% endif %}
 
 {% for c in cats %}
@@ -61,7 +61,7 @@
   </header>
 
   <section class="tests">
-    <h2>Тесты</h2>
+    <h2>Тесттер</h2>
 
     <ul class="tests">
         <li><a href="/topics/1">Тема 1: Отношение двух чисел</a></li>

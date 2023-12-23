@@ -64,15 +64,17 @@
 <body>
     {% csrf_token %}
     {% for question in questions %}
-        <div>
-            <p>{{ question.text }}</p>
+        <div class="question-container">
+            <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text }}</p>
             {% for answer in question.answer_set.all %}
-                <input type="radio" name="{{ question.id }}" value="{{ answer.text }}">
-                <label>{{ answer.text }}</label><br>
+                <input type="radio" name="{{ question.id }}" value="{{ answer.text }}" id="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+                <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text }}</label><br>
             {% endfor %}
         </div>
     {% endfor %}
-    <button type="submit">Отправить ответы</button>
-<body>
+    <button type="submit" class="submit-button">Отправить ответы</button>
+
+</body>
+
 
 <html>

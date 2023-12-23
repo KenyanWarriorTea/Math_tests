@@ -55,7 +55,6 @@ class Home(DataMixin, ListView):
         c_def = self.get_user_context(title="Главная страница")
         return dict(list(context.items()) + list(c_def.items()))
 
-
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
@@ -92,3 +91,14 @@ class LoginUser(DataMixin, LoginView):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+class Home2(DataMixin, ListView):
+    model = Women
+    template_name = 'base2.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Басты бет")
+        return dict(list(context.items()) + list(c_def.items()))
+    def get_success_url(self):
+        return redirect('home2')

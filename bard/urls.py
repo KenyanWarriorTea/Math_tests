@@ -5,6 +5,7 @@ from . import views
 from .views import *
 
 urlpatterns = [
+    #path('create_test/', create_test, name='create_test'),
     path('', Home.as_view(), name='home'),
     path('topics/<int:topic_id>/', math_topic_details, name='topic_details'),
     path('login/', LoginUser.as_view(), name='login'),

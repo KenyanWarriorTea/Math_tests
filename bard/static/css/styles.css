@@ -444,7 +444,7 @@ ul.lang-list li a:hover {color: #fdc073;}
 	padding: 5px;
 	color: #aaa;
 	font-size: 14px;
-	font-family: Verdana, Geneva, Arial, Helvetica;
+	font-family: Verdana, Geneva, Arial, Helvetica, serif;
 	text-align: left;
 	overflow: hidden;
 }
@@ -511,4 +511,35 @@ ul.lang-list li a:hover {color: #fdc073;}
 }
 .list-pages .page-num-selected:hover {
 	box-shadow: none;
+}
+@media (max-width: 768px) {
+    /* Стили для мобильных устройств */
+    .header, .mainmenu {
+        /* Пример: уменьшение размера шрифта для меню */
+        font-size: 14px;
+    }
+
+    .custom-button, .submit-button, .custom-test-button {
+        /* Пример: уменьшение размера кнопок */
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    ul.tests li, ul.mainmenu li, .left-chapters ul li {
+        /* Пример: уменьшение отступов */
+        margin-bottom: 3px;
+    }
+
+    .left-chapters ul {
+        /* Пример: уменьшение ширины боковой панели */
+        width: 100%;
+        padding: 10px;
+    }
+
+    .content {
+        /* Пример: уменьшение отступов для основного содержимого */
+        padding: 20px;
+    }
+
+    /* Дополнительные стили для мобильных устройств */
 }

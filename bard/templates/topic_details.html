@@ -97,7 +97,7 @@
     }
 
     if (allTopicsElement) {
-        allTopicsElement.innerHTML = (lang === 'kk') ? '<a href="{% url 'home2' %}">Барлық тақырыптар</a>' : '<a href="{% url 'home2' %}">Все темы</a>';
+        allTopicsElement.innerHTML = (lang === 'kk') ? '<a href="{% url 'home2' %}">Барлық тақырыптар</a>' : '<a href="{% url 'home' %}">Все темы</a>';
     }
      if (testLinkElement) {
         testLinkElement.textContent = (lang === 'kk') ? 'Тестті өту' : 'Пройти тест';

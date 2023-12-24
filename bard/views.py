@@ -1,13 +1,12 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from .forms import *
 from .utils import *
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from .models import TestResult, Test
 
 from .models import MathTopic
@@ -51,9 +50,7 @@ def test_view(request, test_id):
 @login_required
 def profile(request):
     user = request.user
-    tests = Test.objects.all()  # Получите все тесты, которые вам нужны для профиля пользователя
-
-    # Создайте словарь, где ключами будут тесты, а значениями будут результаты пользователя
+    tests = Test.objects.all()
     test_results = {}
     for test in tests:
         user_test_result = TestResult.objects.filter(user=user, test=test).first()
@@ -157,18 +154,4 @@ class Home2(DataMixin, ListView):
         c_def = self.get_user_context(title="Басты бет")
         return dict(list(context.items()) + list(c_def.items()))
 
-    def get_success_url(self):
-        return redirect('home2')
 
-
-class RegisterUserForm(UserCreationForm):
-    # ... ваш код ...
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        if commit:
-            user.save()
-            user_profile = UserProfile.objects.get(user=user)
-            user_profile.status = self.cleaned_data['status']
-            user_profile.save()
-        return user

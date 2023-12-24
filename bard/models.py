@@ -5,6 +5,21 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+from django.db import models
+from django.contrib.auth.models import User
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=(('teacher', 'Учитель'), ('student', 'Ученик')))
+
+    def __str__(self):
+        return self.user.username
+
+
 class Test(models.Model):
     title = models.CharField(max_length=200)
     # что то там
@@ -86,3 +101,14 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['id']
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.userprofile.save()

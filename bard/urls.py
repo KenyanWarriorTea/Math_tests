@@ -14,4 +14,5 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('kz/', Home2.as_view(), name="home2"),
     path('process_test/<int:test_id>/', process_test, name='process_test'),
+    path('test-results/<int:test_id>/', test_results, name='test_results'),
 ]

@@ -20,10 +20,9 @@
 
 {% endfor %}
 				{% if request.user.is_authenticated %}
-                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+                    <li class="last" id="exit"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
                 {% else %}
-                <li class="last" id="login-register">
-    <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
+                <li class="last" id="login-register"> <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
 </li>
                  {% endif %}
 			</ul>
@@ -90,6 +89,8 @@
     var loginRegisterElement = document.getElementById('login-register');
     var allTopicsElement = document.getElementById('all-topics');
     var testLinkElement = document.getElementById('test-link');
+    var ExitElement = document.getElementById('exit');
+
 
     if (loginRegisterElement) {
         loginRegisterElement.innerHTML = (lang === 'kk') ? '<a href="{% url 'register' %}">Тіркелу</a> | <a href="{% url 'login' %}">Кіру</a>' : '<a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>';
@@ -100,6 +101,9 @@
     }
      if (testLinkElement) {
         testLinkElement.textContent = (lang === 'kk') ? 'Тестті өту' : 'Пройти тест';
+    }
+     if (ExitElement) {
+        ExitElement.innerHTML = (lang === 'kk') ? '<a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Шығу</a></li>' : '<a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>';
     }
 </script>
 

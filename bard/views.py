@@ -1,6 +1,6 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from .forms import *
@@ -9,7 +9,6 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import TestResult, Test
-
 
 from .models import MathTopic
 
@@ -24,6 +23,20 @@ def math_topic_details(request, topic_id):
         'your_test_id': test_id  # убедитесь, что здесь правильный test_id
     }
     return render(request, 'topic_details.html', {'topic': topic})
+
+
+def test_results(request, test_id):
+    test = Test.objects.get(id=test_id)
+    user = request.user
+
+    # Получаем результаты теста для пользователя
+    user_test_result = TestResult.objects.filter(user=user, test=test).first()
+
+    context = {
+        'test': test,
+        'user_test_result': user_test_result,
+    }
+    return render(request, 'test_results.html', context)
 
 
 def test_view(request, test_id):
@@ -102,6 +115,7 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+
 @login_required
 def process_test(request, test_id):
     if request.method == 'POST':
@@ -127,11 +141,12 @@ def process_test(request, test_id):
                 user_test_result.best_score = score
 
             user_test_result.save()
-
-            return redirect('profile')
+            total_questions = test.question_set.count()
+            return redirect('test_results', test_id=test_id)
 
         except Test.DoesNotExist:
             return redirect('profile')
+
 
 class Home2(DataMixin, ListView):
     model = Women
@@ -141,5 +156,19 @@ class Home2(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Басты бет")
         return dict(list(context.items()) + list(c_def.items()))
+
     def get_success_url(self):
         return redirect('home2')
+
+
+class RegisterUserForm(UserCreationForm):
+    # ... ваш код ...
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            user_profile = UserProfile.objects.get(user=user)
+            user_profile.status = self.cleaned_data['status']
+            user_profile.save()
+        return user

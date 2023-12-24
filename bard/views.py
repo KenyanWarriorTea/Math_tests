@@ -5,8 +5,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from .forms import *
 from .utils import *
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from .models import TestResult, Test
 
 from .models import MathTopic
 
@@ -23,6 +24,20 @@ def math_topic_details(request, topic_id):
     return render(request, 'topic_details.html', {'topic': topic})
 
 
+def test_results(request, test_id):
+    test = Test.objects.get(id=test_id)
+    user = request.user
+
+    # Получаем результаты теста для пользователя
+    user_test_result = TestResult.objects.filter(user=user, test=test).first()
+
+    context = {
+        'test': test,
+        'user_test_result': user_test_result,
+    }
+    return render(request, 'test_results.html', context)
+
+
 def test_view(request, test_id):
     # Убедитесь, что вы используете test_id как целое число для получения теста
     test = Test.objects.get(id=test_id)
@@ -34,15 +49,19 @@ def test_view(request, test_id):
 
 @login_required
 def profile(request):
-    # Retrieve user information
     user = request.user
-    # Additional information based on user's status (teacher/student)
-    # ...
+    tests = Test.objects.all()
+    test_results = {}
+    for test in tests:
+        user_test_result = TestResult.objects.filter(user=user, test=test).first()
+        test_results[test] = user_test_result
+
     context = {
         'user': user,
-        # Include other relevant information in the context
-        # ...
+        'tests': tests,
+        'test_results': test_results,
     }
+
     return render(request, 'profile.html', context)
 
 
@@ -55,6 +74,7 @@ class Home(DataMixin, ListView):
         c_def = self.get_user_context(title="Главная страница")
         return dict(list(context.items()) + list(c_def.items()))
 
+
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
@@ -66,7 +86,7 @@ class RegisterUser(DataMixin, CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Регистрация")
+        c_def = self.get_user_context(title="Регистрация / Тіркелу")
         return dict(list(context.items()) + list(c_def.items()))
 
     def form_valid(self, form):
@@ -81,7 +101,7 @@ class LoginUser(DataMixin, LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Авторизация")
+        c_def = self.get_user_context(title="Авторизация / Авторландыру")
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_success_url(self):
@@ -92,6 +112,39 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+
+@login_required
+def process_test(request, test_id):
+    if request.method == 'POST':
+        try:
+            test = Test.objects.get(id=test_id)
+            user = request.user
+            score = 0
+
+            for question in test.question_set.all():
+                user_answer = request.POST.get(str(question.id))
+                correct_answer = question.answer_set.filter(is_correct=True).first()
+                if user_answer == correct_answer.text:
+                    score += 1
+
+            # Найти или создать запись в TestResult для данного пользователя и теста
+            user_test_result, created = TestResult.objects.get_or_create(user=user, test=test)
+
+            # Обновляем последний результат
+            user_test_result.score = score
+
+            # Обновляем лучший результат, если он лучше предыдущего
+            if score > user_test_result.best_score:
+                user_test_result.best_score = score
+
+            user_test_result.save()
+            total_questions = test.question_set.count()
+            return redirect('test_results', test_id=test_id)
+
+        except Test.DoesNotExist:
+            return redirect('profile')
+
+
 class Home2(DataMixin, ListView):
     model = Women
     template_name = 'base2.html'
@@ -100,5 +153,5 @@ class Home2(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Басты бет")
         return dict(list(context.items()) + list(c_def.items()))
-    def get_success_url(self):
-        return redirect('home2')
+
+

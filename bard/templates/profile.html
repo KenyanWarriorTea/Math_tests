@@ -1,13 +1,12 @@
 {% load static %}
 <html>
 <head>
-	<title>{{title}}</title>
-	<link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
+    <link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 <table class="table-page" border=0 cellpadding="0" cellspacing="0">
 <tr><td valign=top>
@@ -61,12 +60,29 @@
   <meta charset="UTF-8">
 </head>
 <body>
- {% csrf_token %}
-    <h1>Profile</h1>
+    {% csrf_token %}
+    <h1>Профиль</h1>
     <ul>
-        <li>Username: {{ user.username }}</li>
+        <li>Имя пользователя: {{ user.username }}</li>
         <li>Email: {{ user.email }}</li>
-        <li>Status: {{ user.status }}</li>
-        </ul>
+        <li>Статус: {{ user.status }}</li>
+    </ul>
+
+    <h2>Результаты тестов:</h2>
+    <ul>
+        {% for test_result in user.testresult_set.all %}
+            <li>
+                Тест "{{ test_result.test.title }}":
+                <ul>
+                    <li>Последний балл: {{ test_result.score }}</li>
+                    <li>Лучший балл: {{ test_result.best_score }}</li>
+                </ul>
+            </li>
+        {% empty %}
+            <li>Результаты тестов отсутствуют.</li>
+        {% endfor %}
+    </ul>
 </body>
+
+
 </html>

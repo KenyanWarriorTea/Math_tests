@@ -20,9 +20,10 @@
 
 {% endfor %}
 				{% if request.user.is_authenticated %}
-                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+                    <li class="last" id="exit"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
                 {% else %}
-                <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+                <li class="last" id="login-register"> <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
+</li>
                  {% endif %}
 			</ul>
 			<div class="clear"></div>
@@ -38,7 +39,8 @@
 {% if cat_selected == 0 %}
 		<li class="selected">Все темы</li>
 {% else %}
-		<li><a href="{% url 'home' %}">Все темы</a></li>
+		<li id="all-topics"><a href="{% url 'home' %}">Все темы</a></li>
+
 {% endif %}
 
 {% for c in cats %}
@@ -61,12 +63,50 @@
 <head>
      {% csrf_token %}
   <meta charset="UTF-8">
-  <title>Test Site</title>
+  <title>{{ topic.title }}</title>
 </head>
 <body>
     <h1>{{ topic.title }}</h1>
     <p>{{ topic.description| safe}}</p>
-    <h1><a href="/test/{{ topic.id }}" class="custom-test-button">Пройти тест</a></h1>
+    {% if request.user.is_authenticated %}
+    <h1><a href="/test/{{ topic.id }}" class="custom-test-button" id="test-link">Пройти тест</a></h1>
+{% else %}
+    <h1><span class="custom-test-button disabled" id="test-link" data-topic-id="{{ topic.id }}" onclick="showAlert(this)">Пройти тест</span></h1>
+{% endif %}
+
+    <script>
+          function showAlert(element) {
+        var topicId = element.getAttribute('data-topic-id');
+        var message = topicId > 38
+                      ? 'Тестті өту үшін авторландыру қажет.' // Сообщение на казахском
+                      : 'Для прохождения теста необходимо авторизоваться.'; // Сообщение на русском
+        alert(message);
+    }
+    var topicId = {{ topic.id }};
+    var lang = (topicId > 38) ? 'kk' : 'ru';
+    document.documentElement.lang = lang;
+
+    var loginRegisterElement = document.getElementById('login-register');
+    var allTopicsElement = document.getElementById('all-topics');
+    var testLinkElement = document.getElementById('test-link');
+    var ExitElement = document.getElementById('exit');
+
+
+    if (loginRegisterElement) {
+        loginRegisterElement.innerHTML = (lang === 'kk') ? '<a href="{% url 'register' %}">Тіркелу</a> | <a href="{% url 'login' %}">Кіру</a>' : '<a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>';
+    }
+
+    if (allTopicsElement) {
+        allTopicsElement.innerHTML = (lang === 'kk') ? '<a href="{% url 'home2' %}">Барлық тақырыптар</a>' : '<a href="{% url 'home' %}">Все темы</a>';
+    }
+     if (testLinkElement) {
+        testLinkElement.textContent = (lang === 'kk') ? 'Тестті өту' : 'Пройти тест';
+    }
+     if (ExitElement) {
+        ExitElement.innerHTML = (lang === 'kk') ? '<a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Шығу</a></li>' : '<a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>';
+    }
+</script>
+
 
 </body>
 </td>

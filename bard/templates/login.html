@@ -20,9 +20,9 @@
 
 {% endfor %}
 				{% if request.user.is_authenticated %}
-                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти/Шығу</a></li>
                 {% else %}
-                <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+                <li class="last"><a href="{% url 'register' %}">Регистрация / Тіркеу</a> | <a href="{% url 'login' %}">Войти/Кіру</a></li>
                  {% endif %}
 			</ul>
 			<div class="clear"></div>
@@ -41,7 +41,9 @@
 <div class="form-error">{{ f.errors }}</div>
 {% endfor %}
 
-    <button type="submit">Войти</button>
+    <button type="submit">Войти/Кіру</button>
 </form>
 
 {% endblock %}
+<body>
+<html>

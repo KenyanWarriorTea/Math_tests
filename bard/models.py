@@ -1,14 +1,46 @@
 from django.contrib.auth.models import User
-from django.db import models
 from django.urls import reverse
-
-from django.db import models
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Test(models.Model):
     title = models.CharField(max_length=200)
     # что то там
+
+
+class UserTestResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    percentage = models.DecimalField(max_digits=5, decimal_places=2)  # Поле для хранения процентов
+
+    def calculate_percentage(self):
+        total_questions = self.test.question_set.count()
+        if total_questions > 0:
+            correct_answers = self.score
+            percentage = (correct_answers / total_questions) * 100
+            return round(percentage, 2)
+        else:
+            return 0.00
+
+    def save(self, *args, **kwargs):
+        self.percentage = self.calculate_percentage()
+        super().save(*args, **kwargs)
+
+
+class TestResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    score = models.IntegerField(default=0)
+    best_score = models.IntegerField(default=0)  # Поле для хранения лучшего результата
+
+    def __str__(self):
+        return f"Результат теста {self.test.title} для пользователя {self.user.username}: Последний балл - {self.score}, Лучший балл - {self.best_score}"
 
 
 class Question(models.Model):
@@ -20,12 +52,6 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.TextField()
     is_correct = models.BooleanField(default=False)
-
-
-class UserTestResult(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    score = models.IntegerField()
 
 
 class MathTopic(models.Model):

@@ -9,23 +9,25 @@
 	<link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 {% block mainmenu %}
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
 			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
-{% for m in menu %}
-
-{% endfor %}
+           {% for m in menu %}
+              {% endfor %}
 				{% if request.user.is_authenticated %}
                  <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
                 {% else %}
                 <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'register' %}"> Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
                  {% endif %}
+            <div class="header__burger">
+            <span></span>
+            </div>
 			</ul>
 			<div class="clear"></div>
 		</div>
+
 {% endblock mainmenu %}
 
 
@@ -55,6 +57,17 @@
 <!-- Конец Sidebar'а -->
 <td valign="top" class="content">
 	<!-- Хлебные крошки -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    var burger = document.querySelector('.header__burger');
+    var menu = document.getElementById('mainmenu');
+
+    burger.addEventListener('click', function() {
+        menu.classList.toggle('active');
+    });
+});
+
+    </script>
 <body>
   <header>
     <h1>Математика</h1>

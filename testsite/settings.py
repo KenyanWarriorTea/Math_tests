@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bard.apps.BardConfig',
-    'ckeditor'
+    'ckeditor',
+    'nested_admin',
 ]
 
 MIDDLEWARE = [

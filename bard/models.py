@@ -43,21 +43,28 @@ class TestResult(models.Model):
         return f"Результат теста {self.test.title} для пользователя {self.user.username}: Последний балл - {self.score}, Лучший балл - {self.best_score}"
 
 
-class Question(models.Model):
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    text = models.TextField()
 
 
-class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    text = models.TextField()
-    is_correct = models.BooleanField(default=False)
+
+
+
 
 
 class MathTopic(models.Model):
     title = models.CharField(max_length=100)
     description = RichTextField()
 
+class Question(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    text = models.TextField()
+    math_topic = models.ForeignKey(MathTopic, on_delete=models.SET_NULL, null=True, blank=True)
+    # Остальные поля...
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.TextField()
+    is_correct = models.BooleanField(default=False)
+    # Остальные поля...
 
 class Women(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")

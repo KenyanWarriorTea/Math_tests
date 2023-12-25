@@ -63,7 +63,7 @@
 <body>
     <div class="container">
         <h1>Результаты Теста: {{ test.title }}</h1>
-        <p><strong>Итоговый результат:</strong> {{ user_test_result.score }} из {{ test.question_set.count }}</p>
+        <p><strong>Итоговый результат:</strong> {{ user_test_result.score }} из 30</p>
 
         <!-- Ссылки для повторного прохождения теста или возврата на главную страницу -->
         <a href="{% url 'test_view' test.id %}" id="retry-test-button" class="custom-button">Пройти тест еще раз</a>

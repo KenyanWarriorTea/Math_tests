@@ -8,8 +8,10 @@ from .utils import *
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .models import TestResult, Test
-
+import random
+from .models import UserProfile
 from .models import MathTopic
+from .forms import RegisterUserForm
 
 from django.shortcuts import render
 
@@ -38,13 +40,20 @@ def test_results(request, test_id):
     return render(request, 'test_results.html', context)
 
 
-def test_view(request, test_id):
-    # Убедитесь, что вы используете test_id как целое число для получения теста
-    test = Test.objects.get(id=test_id)
-    questions = Question.objects.filter(test=test)
 
-    # остальная часть вашего кода
+
+def test_view(request, test_id):
+    test = Test.objects.get(id=test_id)
+
+    # Получение всех вопросов для данного теста и их перемешивание
+    questions = list(Question.objects.filter(test=test))
+    random.shuffle(questions)
+
+    # Ограничение списка вопросов до 30
+    questions = questions[:30]
+
     return render(request, 'test.html', {'test': test, 'questions': questions})
+
 
 
 @login_required
@@ -56,10 +65,21 @@ def profile(request):
         user_test_result = TestResult.objects.filter(user=user, test=test).first()
         test_results[test] = user_test_result
 
+    # Получите профиль пользователя, если он существует
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+        full_name = user_profile.full_name
+        status = user_profile.status
+    except UserProfile.DoesNotExist:
+        full_name = ""
+        status = ""
+
     context = {
         'user': user,
         'tests': tests,
         'test_results': test_results,
+        'full_name': full_name,  # Добавьте ФИО в контекст
+        'status': status,        # Добавьте статус в контекст
     }
 
     return render(request, 'profile.html', context)
@@ -79,6 +99,7 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
+
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'register.html'
@@ -90,7 +111,15 @@ class RegisterUser(DataMixin, CreateView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def form_valid(self, form):
+        # Создайте пользователя
         user = form.save()
+
+        # Создайте профиль пользователя и свяжите его с пользователем
+        full_name = form.cleaned_data.get('full_name')
+        status = form.cleaned_data.get('status')
+        UserProfile.objects.create(user=user, full_name=full_name, status=status)
+
+        # Авторизуйте пользователя
         login(self.request, user)
         return redirect('home')
 
@@ -112,7 +141,6 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
-
 @login_required
 def process_test(request, test_id):
     if request.method == 'POST':
@@ -124,16 +152,19 @@ def process_test(request, test_id):
             for question in test.question_set.all():
                 user_answer = request.POST.get(str(question.id))
                 correct_answer = question.answer_set.filter(is_correct=True).first()
-                if user_answer == correct_answer.text:
-                    score += 1
 
-            # Найти или создать запись в TestResult для данного пользователя и теста
+                # Check if correct answer exists and user answer matches it
+                if correct_answer and user_answer == correct_answer.text:
+                    score += 1
+                # You can add additional logic here if needed, for example, handling specific types of questions differently
+
+            # Find or create a TestResult entry for this user and test
             user_test_result, created = TestResult.objects.get_or_create(user=user, test=test)
 
-            # Обновляем последний результат
+            # Update the latest result
             user_test_result.score = score
 
-            # Обновляем лучший результат, если он лучше предыдущего
+            # Update the best result if it's better than the previous one
             if score > user_test_result.best_score:
                 user_test_result.best_score = score
 
@@ -143,7 +174,6 @@ def process_test(request, test_id):
 
         except Test.DoesNotExist:
             return redirect('profile')
-
 
 class Home2(DataMixin, ListView):
     model = Women

@@ -1,3 +1,36 @@
+.profile-container {
+    max-width: 1600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f4f8ff; /* Light blue background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-container h1, .profile-container h2 {
+    color: #205081; /* Darker blue for headings */
+}
+
+.profile-info, .test-result {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border-left: 5px solid #205081; /* Blue border on the left */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.profile-info p, .test-result p {
+    font-size: 16px;
+    color: #666;
+}
+
+.profile-info span, .test-result span {
+    font-weight: bold;
+    color: #007bff; /* Standard blue for text emphasis */
+}
+
+
 .form-container {
     max-width: 600px;
     margin: 20px auto;
@@ -6,6 +39,60 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.dropdown {
+    position: fixed;
+    right: 50px;
+    top: 80px;
+}
+
+.dropdown-content {
+	display: flex;
+    flex-wrap: wrap;
+    max-height: 350px;
+    overflow-y: auto;
+    position: absolute;
+    right: 0px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 3;
+}
+#dropdownSearch {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+.dropbtn {
+    background-color: #4CAF50; /* Зеленый фон */
+    color: white; /* Белый текст */
+    padding: 10px 15px; /* Внутренние отступы */
+    border: none; /* Убрать границу */
+    cursor: pointer; /* Курсор в виде руки */
+    border-radius: 5px; /* Скругленные углы */
+    font-size: 16px; /* Размер шрифта */
+}
+
+.dropbtn:hover {
+    background-color: #45a049; /* Темнее зеленый при наведении */
+}
+.answered {
+    background-color: #4CAF50; /* Зеленый фон */
+    color: white; /* Белый текст */
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 .form-label {
@@ -67,6 +154,10 @@ html, body {
 
 .custom-button:hover {background-color: #007bff;
                         color: #fff;
+}
+.answered {
+    background-color: #4CAF50; /* Зеленый фон */
+    color: white; /* Белый текст */
 }
 
 .custom-button:active {

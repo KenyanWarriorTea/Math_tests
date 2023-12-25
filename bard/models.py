@@ -7,7 +7,16 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from django.db import models
+from django.contrib.auth.models import User
 
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=255)
+    status = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"Профиль пользователя {self.user.username}: ФИО - {self.full_name}, Статус - {self.status}"
 class Test(models.Model):
     title = models.CharField(max_length=200)
     # что то там
@@ -47,13 +56,9 @@ class TestResult(models.Model):
 
 
 
-
-
-
 class MathTopic(models.Model):
     title = models.CharField(max_length=100)
     description = RichTextField()
-
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     text = models.TextField()

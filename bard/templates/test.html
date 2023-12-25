@@ -59,23 +59,66 @@
 	{% block breadcrumbs %}
 	{% endblock %}
 {% block content %}
+
+<!-- Основной контент теста -->
+    <div class="dropdown">
+    <button class="dropbtn">Выберите вопрос</button>
+    <div class="dropdown-content">
+        <input type="text" id="dropdownSearch" placeholder="Поиск по вопросам...">
+        {% for question in questions %}
+            <a href="#question_{{ forloop.counter }}" class="question-link" data-question-id="{{ question.id }}">Вопрос {{ forloop.counter }}</a>
+
+        {% endfor %}
+    </div>
+</div>
 <div class="test-page">
-    <div id="user-score"></div>
     <h1>{{ test.title }}</h1>
-    <form method="post" action="{% url 'process_test' test.id %}" id="test-form">
+    <form method="post" action="{% url 'process_test' test.id %}">
          {% csrf_token %}
 
         {% for question in questions %}
-            <div class="question-container">
-                <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text }}</p>
-                {% for answer in question.answer_set.all %}
-                    <input type="radio" name="{{ question.id }}" value="{{ answer.text }}" id="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
-                    <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text }}</label><br>
-                {% endfor %}
+    <div class="question-container" id="question_{{ forloop.counter }}">
+        <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text }}</p>
+        {% for answer in question.answer_set.all %}
+            <input type="radio" name="{{ question.id }}" value="{{ answer.text }}" id="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+            <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text }}</label><br>
+        {% endfor %}
             </div>
-     {% endfor %}
-    <button type="submit" class="submit-button" id="submit-button">Отправить ответы</button>
-
-</form>
-
+            {% if forloop.counter >= 30 %}
+                {% for question in questions %}
+                                                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        <button type="submit" class="submit-button">Отправить ответы</button>
+    </form>
+</div>
 {% endblock %}
+<script>
+    function markQuestionAsAnswered(questionId) {
+    var questionLink = $('.question-link[data-question-id="' + questionId + '"]');
+    questionLink.addClass('answered');
+}
+    $(document).ready(function() {
+        $('.test-page').on('keydown', function(e) {
+            if (e.keyCode === 13) { // 13 - код клавиши Enter
+                e.preventDefault(); // Предотвращает действие по умолчанию для Enter
+                $(this).find('form').submit(); // Отправляет форму
+            }
+        });
+    });
+    $(document).ready(function() {
+    // Открытие и закрытие выпадающего меню
+    $('.dropbtn').click(function(event) {
+        $('.dropdown-content').toggle();
+        event.stopPropagation();
+    });
+});
+    $(document).ready(function() {
+    $("#dropdownSearch").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $(".dropdown-content a").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+</script>

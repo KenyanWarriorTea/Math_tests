@@ -1,3 +1,43 @@
+.dropdown2{
+	display: none;
+}
+/* Скрываем выпадающий список по умолчанию */
+.dropdown2-content {
+    display: none;
+}
+
+/* Остальные стили остаются без изменений */
+@media screen and (max-width: 768px) {
+    .dropdown2 {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 0;
+    }
+    .dropdown2-content {
+        display: flex; /* Используем flex вместо -o-flex */
+        flex-wrap: wrap;
+        max-height: 350px;
+        overflow-y: auto;
+        position: absolute;
+        right: 0px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 9;
+    }
+    .dropdown2-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    .dropdown2:hover .dropdown2-content {
+        display: block; /* Показываем выпадающий список при наведении */
+    }
+}
+
+
 .profile-container {
     max-width: 1600px;
     margin: auto;
@@ -739,4 +779,17 @@ ul.lang-list li {
     .header__burger.active:after {
         transform: translateY(-9px) rotate(-45deg);
     }
+}
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.tooltip.show {
+    display: block;
 }

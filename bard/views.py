@@ -6,7 +6,7 @@ from django.views.generic import ListView, CreateView
 from .forms import *
 from .utils import *
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from .models import TestResult, Test
 import random
 from .models import UserProfile
@@ -14,6 +14,9 @@ from .models import MathTopic
 from .forms import RegisterUserForm
 
 from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import UserProfile
+from django.contrib.auth.decorators import login_required
 
 
 def math_topic_details(request, topic_id):
@@ -42,18 +45,26 @@ def test_results(request, test_id):
 
 
 
+
 def test_view(request, test_id):
-    test = Test.objects.get(id=test_id)
+    test = get_object_or_404(Test, pk=test_id)
 
-    # Получение всех вопросов для данного теста и их перемешивание
-    questions = list(Question.objects.filter(test=test))
-    random.shuffle(questions)
 
-    # Ограничение списка вопросов до 30
-    questions = questions[:30]
+    # Проверка, были ли вопросы уже перемешаны и сохранены в сессии
+    if 'questions_order' not in request.session:
+        questions = list(Question.objects.filter(test=test))
+        random.shuffle(questions)
+        questions = questions[:30]
+        request.session['questions_order'] = [q.id for q in questions]
+    else:
+        questions_ids = request.session['questions_order']
+        questions = [Question.objects.get(id=qid) for qid in questions_ids]
 
-    return render(request, 'test.html', {'test': test, 'questions': questions})
+    # Загрузка сохраненных ответов
+    saved_answers = {key.split('_')[1]: request.session[key] for key in request.session.keys() if key.startswith('answer_')}
 
+    context = {'test': test, 'questions': questions, 'saved_answers': saved_answers}
+    return render(request, 'test.html', context,)
 
 
 @login_required
@@ -143,6 +154,12 @@ def logout_user(request):
 
 @login_required
 def process_test(request, test_id):
+
+    if request.method == 'POST':
+        # Очистка данных сессии после отправки ответов
+        keys_to_clear = [key for key in request.session.keys() if key.startswith('answer_') or key == 'questions_order']
+        for key in keys_to_clear:
+            del request.session[key]
     if request.method == 'POST':
         try:
             test = Test.objects.get(id=test_id)

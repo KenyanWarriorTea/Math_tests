@@ -3,33 +3,44 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>{{title}}</title>
-	<link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 {% block mainmenu %}
-		<div class="header">
-			<ul id="mainmenu" class="mainmenu">
-			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
-           {% for m in menu %}
-              {% endfor %}
-				{% if request.user.is_authenticated %}
-                 <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
-                {% else %}
-                <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'register' %}"> Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
-                 {% endif %}
-            <div class="header__burger">
-            <span></span>
-            </div>
-			</ul>
-			<div class="clear"></div>
-		</div>
+  <div class="header">
+    <ul id="mainmenu" class="mainmenu">
+      <li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
 
+      <!-- Dropdown Menu -->
+      <div class="dropdown2">
+    <button class="dropbtn" id="menuBtn">Меню</button>
+    <div class="dropdown2-content">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a>
+            <a href="{% url 'profile' %}">{{ user.username }}</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+      {% else %}
+        <a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a>
+            <a href="{% url 'register' %}"> Регистрация</a>
+            <a href="{% url 'login' %}">Войти</a>
+      {% endif %}
+    </div>
+</div>
+      <!-- End Dropdown Menu -->
+
+      {% if request.user.is_authenticated %}
+        <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'profile' %}">{{ user.username }}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+      {% else %}
+        <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'register' %}"> Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+      {% endif %}
+    </ul>
+    <div class="clear"></div>
+  </div>
 {% endblock mainmenu %}
-
 
 <table class="table-content" border=0 cellpadding="0" cellspacing="0">
 <tr>
@@ -37,9 +48,9 @@
 	<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
 {% if cat_selected == 0 %}
-		<li class="selected">Все темы</li>
+		<li class="selected">все темы</li>
 {% else %}
-		<li><a href="{% url 'home' %}">Все темы</a></li>
+		<li><a href="{% url 'home' %}">все темы</a></li>
 {% endif %}
 
 {% for c in cats %}
@@ -57,17 +68,25 @@
 <!-- Конец Sidebar'а -->
 <td valign="top" class="content">
 	<!-- Хлебные крошки -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    var burger = document.querySelector('.header__burger');
-    var menu = document.getElementById('mainmenu');
 
-    burger.addEventListener('click', function() {
-        menu.classList.toggle('active');
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const menuButton = document.getElementById("menuBtn");
+    const dropdownContent = document.querySelector(".dropdown2-content");
+
+    menuButton.addEventListener("click", function(event) {
+        dropdownContent.style.display = (dropdownContent.style.display === "none") ? "block" : "none"; // Изменяем стиль отображения
+        event.stopPropagation();
+    });
+
+    document.addEventListener("click", function(event) {
+        if (!event.target.matches("#menuBtn")) {
+            dropdownContent.style.display = "none"; // Скрываем выпадающий список при клике вне кнопки
+        }
     });
 });
+</script>
 
-    </script>
 <body>
   <header>
     <h1>Математика</h1>
@@ -116,4 +135,5 @@
         <li><a href="/topics/37">Тема 37: Зависимость между величинами. Способы задания зависимостей между величинами</a></li>
         <li><a href="/topics/38">Тема 38: Система линейных уравнений с двумя переменными</a></li>
     </ul>
+
 </html>

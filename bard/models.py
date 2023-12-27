@@ -10,13 +10,15 @@ from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=255)
     status = models.CharField(max_length=100)
-
     def __str__(self):
         return f"Профиль пользователя {self.user.username}: ФИО - {self.full_name}, Статус - {self.status}"
+
+
 class Test(models.Model):
     title = models.CharField(max_length=200)
     # что то там
@@ -46,7 +48,7 @@ class TestResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     score = models.IntegerField(default=0)
-    best_score = models.IntegerField(default=0)  # Поле для хранения лучшего результата
+    best_score = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Результат теста {self.test.title} для пользователя {self.user.username}: Последний балл - {self.score}, Лучший балл - {self.best_score}"
@@ -65,11 +67,13 @@ class Question(models.Model):
     math_topic = models.ForeignKey(MathTopic, on_delete=models.SET_NULL, null=True, blank=True)
     # Остальные поля...
 
+
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.TextField()
     is_correct = models.BooleanField(default=False)
     # Остальные поля...
+
 
 class Women(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")

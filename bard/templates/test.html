@@ -89,7 +89,8 @@
                                                 {% endfor %}
             {% endif %}
         {% endfor %}
-        <button type="submit" class="submit-button">Отправить ответы</button>
+    <button type="submit" id="submit-button" class="submit-button" onclick="return confirm('Вы уверены, что хотите отправить ответы?')">Отправить ответы</button>
+<div class="tooltip" id="tooltip">Вы уверены?</div>
     </form>
 </div>
 {% endblock %}
@@ -121,4 +122,51 @@
         });
     });
 });
+    function saveAnswer(questionId, selectedAnswer) {
+    localStorage.setItem(questionId, selectedAnswer);
+}
+
+// Восстановление состояния при перезагрузке
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('input[type=radio]').forEach(function(radio) {
+        var savedAnswer = localStorage.getItem(radio.name);
+        if (radio.value === savedAnswer) {
+            radio.checked = true;
+        }
+    });
+});
+    $('input[type=radio]').on('change', function() {
+    var questionId = $(this).attr('name');
+    var answer = $(this).val();
+    $.ajax({
+        url: '/test/{{ test_id }}',
+        method: 'POST',
+        data: {
+            'question_id': questionId,
+            'answer': answer,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+            // Обработка ответа сервера
+        }
+    });
+});
+    // Показать подсказку при наведении на кнопку
+$('#submit-button').on('mouseover', function() {
+    $('#tooltip').addClass('show');
+});
+
+// Скрыть подсказку при уходе мыши с кнопки
+$('#submit-button').on('mouseout', function() {
+    $('#tooltip').removeClass('show');
+});
+
+// Отправить форму при клике на кнопку
+$('#submit-button').on('click', function() {
+    // Вывести подтверждение в консоль (замените этот код на отправку формы)
+
+    // Скрыть подсказку
+    $('#tooltip').removeClass('show');
+});
+
 </script>

@@ -15,6 +15,20 @@
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
 			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
+            <div class="dropdown2">
+    <button class="dropbtn" id="menuBtn">Меню</button>
+    <div class="dropdown2-content">
+        {% if request.user.is_authenticated %}
+                 <a href="{% url 'home' %}">Перевести сайт на русский язык</a>
+            <a href="{% url 'profile' %}">{{user.username}}</a>
+            <a href="{% url 'logout' %}">Шығу</a>
+                {% else %}
+                <a href="{% url 'home' %}">Перевести сайт на русский язык</a>
+            <a href="{% url 'register' %}">Тіркелу</a>
+            <a href="{% url 'login' %}">Кіру</a>
+                 {% endif %}
+    </div>
+</div>
 {% for m in menu %}
 
 {% endfor %}
@@ -55,6 +69,23 @@
 <!-- Конец Sidebar'а -->
 <td valign="top" class="content">
 	<!-- Хлебные крошки -->
+    <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const menuButton = document.getElementById("menuBtn");
+    const dropdownContent = document.querySelector(".dropdown2-content");
+
+    menuButton.addEventListener("click", function(event) {
+        dropdownContent.style.display = (dropdownContent.style.display === "none") ? "block" : "none"; // Изменяем стиль отображения
+        event.stopPropagation();
+    });
+
+    document.addEventListener("click", function(event) {
+        if (!event.target.matches("#menuBtn")) {
+            dropdownContent.style.display = "none"; // Скрываем выпадающий список при клике вне кнопки
+        }
+    });
+});
+</script>
 <body>
   <header>
     <h1>Математика</h1>

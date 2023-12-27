@@ -44,7 +44,19 @@ def test_results(request, test_id):
 
 
 
+def create_classroom(request):
+    if request.method == 'POST':
+        form = ClassroomForm(request.POST)
+        if form.is_valid():
+            classroom = form.save(commit=False)
+            classroom.teacher = request.user
+            classroom.save()
+            classroom.students.add(request.user)  # Зарегистрировать учителя в классе
+            return redirect('profile')
+    else:
+        form = ClassroomForm()
 
+    return render(request, 'create_classroom.html', {'form': form})
 
 def test_view(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
@@ -64,37 +76,39 @@ def test_view(request, test_id):
     saved_answers = {key.split('_')[1]: request.session[key] for key in request.session.keys() if key.startswith('answer_')}
 
     context = {'test': test, 'questions': questions, 'saved_answers': saved_answers}
-    return render(request, 'test.html', context,)
+    return render(request, 'test.html', context)
 
 
 @login_required
 def profile(request):
     user = request.user
     tests = Test.objects.all()
+
     test_results = {}
     for test in tests:
         user_test_result = TestResult.objects.filter(user=user, test=test).first()
         test_results[test] = user_test_result
 
-    # Получите профиль пользователя, если он существует
     try:
         user_profile = UserProfile.objects.get(user=user)
         full_name = user_profile.full_name
         status = user_profile.status
+        classrooms = user_profile.classrooms.all()  # Получите классы пользователя
     except UserProfile.DoesNotExist:
         full_name = ""
         status = ""
+        classrooms = []
 
     context = {
         'user': user,
         'tests': tests,
         'test_results': test_results,
-        'full_name': full_name,  # Добавьте ФИО в контекст
-        'status': status,        # Добавьте статус в контекст
+        'full_name': full_name,
+        'status': status,
+        'classrooms': classrooms,  # Добавьте классы пользователя в контекст
     }
 
     return render(request, 'profile.html', context)
-
 
 class Home(DataMixin, ListView):
     model = Women

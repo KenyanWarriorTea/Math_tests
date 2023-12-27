@@ -70,6 +70,18 @@
             <p>Email: <span>{{ user.email }}</span></p>
             <p>Статус: <span>{{ status }}</span></p>
         </div>
+    {% if status == "teacher" %}
+    <a href="{% url 'create_class' %}" class="create-class-button">Создать класс</a>
+        <h2>Ваши классы:</h2>
+    <ul>
+        {% for classroom in classrooms %}
+            <li>{{ classroom.name }}</li>
+        {% empty %}
+            <li>У вас пока нет классов.</li>
+        {% endfor %}
+    </ul>
+   {% endif %}
+
 
         <h2>Результаты тестов:</h2>
         <div class="test-results">

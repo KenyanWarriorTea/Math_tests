@@ -793,3 +793,15 @@ ul.lang-list li {
 .tooltip.show {
     display: block;
 }
+.create-class-button {
+    background-color: #007bff; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    padding: 10px 20px; /* Отступы вокруг текста */
+    border: none; /* Убираем границу */
+    border-radius: 5px; /* Скругляем углы */
+    text-decoration: none; /* Убираем подчеркивание текста */
+}
+
+.create-class-button:hover {
+    background-color: #0056b3; /* Изменяем цвет фона при наведении */
+}

@@ -4,3 +4,5 @@ pip install pillow
 Django~=3.2.23
 views~=0.3
 django-ckeditor~=6.7.0
+djoser
+pip install django-nested-admin

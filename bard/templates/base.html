@@ -33,9 +33,9 @@
       <!-- End Dropdown Menu -->
 
       {% if request.user.is_authenticated %}
-        <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'profile' %}">{{ user.username }}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+        <li class="last"><a href="{% url 'set_language_kazakh' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'profile' %}">{{ user.username }}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
       {% else %}
-        <li class="last"><a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'register' %}"> Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+        <li class="last"><a href="{% url 'set_language_kazakh' %}">Сайтты қазақ тіліне аудару</a> | <a href="{% url 'register' %}"> Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
       {% endif %}
     </ul>
     <div class="clear"></div>

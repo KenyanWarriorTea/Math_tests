@@ -33,9 +33,9 @@
 
 {% endfor %}
 				{% if request.user.is_authenticated %}
-                 <li class="last"><a href="{% url 'home' %}">Перевести сайт на русский язык</a> | <a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Шығу</a></li>
+                <li class="last"><a href="{% url 'set_language_russian' %}">Перевести сайт на русский язык</a> | <a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Шығу</a></li>
                 {% else %}
-                <li class="last"><a href="{% url 'home' %}">Перевести сайт на русский язык</a> | <a href="{% url 'register' %}">Тіркелу</a> | <a href="{% url 'login' %}">Кіру</a></li>
+                <li class="last"><a href="{% url 'set_language_russian' %}">Перевести сайт на русский язык</a> | <a href="{% url 'register' %}">Тіркелу</a> | <a href="{% url 'login' %}">Кіру</a></li>
                  {% endif %}
 			</ul>
 			<div class="clear"></div>

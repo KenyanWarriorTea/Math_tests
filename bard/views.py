@@ -19,6 +19,7 @@ from .models import UserProfile
 from django.contrib.auth.decorators import login_required
 
 
+
 def math_topic_details(request, topic_id):
     topic = MathTopic.objects.get(pk=topic_id)
     test_id = ...
@@ -52,7 +53,6 @@ def create_classroom(request):
                 classroom = form.save(commit=False)
                 classroom.teacher = request.user
                 classroom.save()
-                classroom.students.add(request.user)
 
                 # Add classroom to user's profile
                 user_profile, created = UserProfile.objects.get_or_create(user=request.user)
@@ -61,11 +61,13 @@ def create_classroom(request):
                 return redirect('profile')
             except IntegrityError:
                 # Handle the unique constraint error
-                messages.error(request, "A classroom with this name already exists.")  # Используем messages.error для создания алерта
+                messages.error(request, "A classroom with this name already exists.")
     else:
         form = ClassroomForm()
 
     return render(request, 'create_classroom.html', {'form': form})
+
+
 def test_view(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
 
@@ -85,7 +87,6 @@ def test_view(request, test_id):
 
     context = {'test': test, 'questions': questions, 'saved_answers': saved_answers}
     return render(request, 'test.html', context)
-
 
 @login_required
 def profile(request):
@@ -164,6 +165,7 @@ class RegisterUser(DataMixin, CreateView):
         return redirect('home')
 
 
+
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'login.html'
@@ -176,17 +178,94 @@ class LoginUser(DataMixin, LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+
+
+
 @login_required
 def classroom_detail(request, classroom_id):
     classroom = get_object_or_404(Classroom, id=classroom_id)
 
-    # Check if the current user is the teacher of the classroom
-    if request.user != classroom.teacher:
-        return redirect('home')  # or some other error page
 
-    # Get the list of students in the classroom
+    if request.user != classroom.teacher:
+        return redirect('home')  # Или страница ошибки
+
+    if request.method == 'POST':
+        form = AddStudentForm(request.POST)
+        if form.is_valid():
+            student_username = form.cleaned_data['username']
+            student = User.objects.get(username=student_username)
+            ClassroomJoinRequest.objects.create(classroom=classroom, student=student)
+
+    else:
+        form = AddStudentForm()
+
     students = classroom.students.all()
-    return render(request, 'classroom_detail.html', {'classroom': classroom, 'students': students})
+    return render(request, 'classroom_detail.html', {'classroom': classroom, 'students': students, 'form': form})
+@login_required
+def manage_join_requests(request):
+    join_requests = ClassroomJoinRequest.objects.filter(student=request.user, is_accepted=False)
+    return render(request, 'manage_join_requests.html', {'join_requests': join_requests})
+from django.shortcuts import redirect
+
+
+def set_language_to_russian(request):
+    request.session['language'] = 'russian'
+    return redirect('home')
+
+
+def set_language_to_kazakh(request):
+    request.session['language'] = 'kazakh'
+    return redirect('home2')
+
+@login_required
+def accept_join_request(request, join_request_id):
+    join_request = get_object_or_404(ClassroomJoinRequest, id=join_request_id, student=request.user)
+
+    if request.method == 'POST':
+        if 'accept' in request.POST:
+            join_request.is_accepted = True
+            join_request.save()
+            join_request.classroom.students.add(request.user)
+            return redirect('profile')
+            # Перенаправление на страницу с подтверждением или другую страницу
+        elif 'decline' in request.POST:
+            join_request.delete()
+            return redirect('profile')
+            # Удалить запрос при отклонении
+            # Перенаправление на страницу с подтверждением отклонения или другую страницу
+
+    return render(request, 'accept_join_request.html', {'join_request': join_request})
+@login_required
+def delete_classroom(request, classroom_id):
+    classroom = get_object_or_404(Classroom, id=classroom_id, teacher=request.user)
+    if request.method == 'POST':
+        classroom.delete()
+        return redirect('profile')  # Перенаправление на другую страницу после удаления
+    return render(request, 'delete_classroom.html', {'classroom': classroom})
+@login_required
+def remove_student_from_classroom(request, classroom_id, student_id):
+    classroom = get_object_or_404(Classroom, id=classroom_id, teacher=request.user)
+    student = get_object_or_404(User, id=student_id)
+    if request.method == 'POST':
+        classroom.students.remove(student)
+        return redirect('classroom_detail', classroom_id=classroom_id)
+    return render(request, 'classroom_detail', {'classroom': classroom, 'student': student})
+@login_required
+def student_profile(request, user_id):
+    student = get_object_or_404(User, pk=user_id)
+    # Предполагая, что у вас есть модель UserProfile с дополнительной информацией
+    user_profile = UserProfile.objects.filter(user=student).first()
+
+    # Получаем результаты тестов студента
+    test_results = TestResult.objects.filter(user=student)
+
+    context = {
+        'student': student,
+        'user_profile': user_profile,
+        'test_results': test_results
+    }
+
+    return render(request, 'student_profile.html', context)
 
 def logout_user(request):
     logout(request)
@@ -213,7 +292,7 @@ def process_test(request, test_id):
                 # Check if correct answer exists and user answer matches it
                 if correct_answer and user_answer == correct_answer.text:
                     score += 1
-                # You can add additional logic here if needed, for example, handling specific types of questions differently
+# You can add additional logic here if needed, for example, handling specific types of questions differently
 
             # Find or create a TestResult entry for this user and test
             user_test_result, created = TestResult.objects.get_or_create(user=user, test=test)
@@ -231,6 +310,7 @@ def process_test(request, test_id):
 
         except Test.DoesNotExist:
             return redirect('profile')
+
 
 class Home2(DataMixin, ListView):
     model = Women

@@ -29,11 +29,20 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
+
 class Test(models.Model):
     title = models.CharField(max_length=200)
     # что то там
 
 
+class ClassroomJoinRequest(models.Model):
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_accepted = models.BooleanField(default=False)  # Принят или нет запрос
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Запрос от {self.student.username} в класс {self.classroom.name}"
 class UserTestResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
@@ -71,12 +80,18 @@ class TestResult(models.Model):
 class MathTopic(models.Model):
     title = models.CharField(max_length=100)
     description = RichTextField()
+
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     text = models.TextField()
     math_topic = models.ForeignKey(MathTopic, on_delete=models.SET_NULL, null=True, blank=True)
     # Остальные поля...
 
+class Language(models.Model):
+    code = models.CharField(max_length=10, unique=True)  # Например, 'ru' или 'kz'
+
+    def __str__(self):
+        return self.code
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

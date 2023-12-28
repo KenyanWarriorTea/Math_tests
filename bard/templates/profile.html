@@ -72,8 +72,14 @@
             <p>Email: <span>{{ user.email }}</span></p>
             <p>Статус: <span>{{ status }}</span></p>
         </div>
+    {% if status == "student" %}
+        <a href="{% url 'manage_join_requests' %}" class="create-class-button">Запросы</a>
+        <hr>
+    {% endif %}
     {% if status == "teacher" %}
     <a href="{% url 'create_class' %}" class="create-class-button">Создать класс</a>
+
+
         <HR>
         <h2>Ваши классы:</h2>
    <ul class="list-group">

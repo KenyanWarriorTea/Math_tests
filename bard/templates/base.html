@@ -21,7 +21,7 @@
     <div class="dropdown2-content">
         {% if request.user.is_authenticated %}
         <a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a>
-            <a href="{% url 'profile' %}">{{ user.username }}</a>
+            <a href="{% url 'profile' %}">{{ user.username }}(профиль)</a>
             <a href="{% url 'logout' %}">Выйти</a>
       {% else %}
         <a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a>

@@ -20,7 +20,7 @@
     <div class="dropdown2-content">
         {% if request.user.is_authenticated %}
                  <a href="{% url 'home' %}">Перевести сайт на русский язык</a>
-            <a href="{% url 'profile' %}">{{user.username}}</a>
+            <a href="{% url 'profile' %}">{{user.username}}(профиль)</a>
             <a href="{% url 'logout' %}">Шығу</a>
                 {% else %}
                 <a href="{% url 'home' %}">Перевести сайт на русский язык</a>

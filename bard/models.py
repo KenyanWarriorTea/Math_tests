@@ -10,21 +10,24 @@ from django.dispatch import receiver
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Classroom(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)  # Globally unique name
     teacher = models.ForeignKey(User, on_delete=models.CASCADE)
+    students = models.ManyToManyField(User, related_name='classrooms', blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=255)
     status = models.CharField(max_length=100)
     classrooms = models.ManyToManyField(Classroom, blank=True)
-    students = models.ManyToManyField(User, related_name='classrooms', blank=True)  # Добавьте это пол
-
 
     def __str__(self):
-        return f"Профиль пользователя {self.user.username}: ФИО - {self.full_name}, Статус - {self.status}"
-
+        return f"{self.user.username}'s Profile"
 
 class Test(models.Model):
     title = models.CharField(max_length=200)

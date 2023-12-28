@@ -5,15 +5,15 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from .forms import *
 from .utils import *
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from .models import TestResult, Test
+from django.contrib import messages
 import random
-from .models import UserProfile
 from .models import MathTopic
 from .forms import RegisterUserForm
-
-from django.shortcuts import render
+from django.db import IntegrityError
+from .forms import ClassroomForm
+from .models import Classroom
 from django.shortcuts import render, redirect
 from .models import UserProfile
 from django.contrib.auth.decorators import login_required
@@ -43,21 +43,29 @@ def test_results(request, test_id):
     return render(request, 'test_results.html', context)
 
 
-
+@login_required
 def create_classroom(request):
     if request.method == 'POST':
         form = ClassroomForm(request.POST)
         if form.is_valid():
-            classroom = form.save(commit=False)
-            classroom.teacher = request.user
-            classroom.save()
-            classroom.students.add(request.user)  # Зарегистрировать учителя в классе
-            return redirect('profile')
+            try:
+                classroom = form.save(commit=False)
+                classroom.teacher = request.user
+                classroom.save()
+                classroom.students.add(request.user)
+
+                # Add classroom to user's profile
+                user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+                user_profile.classrooms.add(classroom)
+
+                return redirect('profile')
+            except IntegrityError:
+                # Handle the unique constraint error
+                messages.error(request, "A classroom with this name already exists.")  # Используем messages.error для создания алерта
     else:
         form = ClassroomForm()
 
     return render(request, 'create_classroom.html', {'form': form})
-
 def test_view(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
 
@@ -83,6 +91,13 @@ def test_view(request, test_id):
 def profile(request):
     user = request.user
     tests = Test.objects.all()
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+        classrooms = user_profile.classrooms.all()
+    except UserProfile.DoesNotExist:
+        classrooms = Classroom.objects.filter(teacher=user)
+
+
 
     test_results = {}
     for test in tests:
@@ -105,7 +120,7 @@ def profile(request):
         'test_results': test_results,
         'full_name': full_name,
         'status': status,
-        'classrooms': classrooms,  # Добавьте классы пользователя в контекст
+        'classrooms': classrooms,
     }
 
     return render(request, 'profile.html', context)
@@ -161,6 +176,17 @@ class LoginUser(DataMixin, LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+@login_required
+def classroom_detail(request, classroom_id):
+    classroom = get_object_or_404(Classroom, id=classroom_id)
+
+    # Check if the current user is the teacher of the classroom
+    if request.user != classroom.teacher:
+        return redirect('home')  # or some other error page
+
+    # Get the list of students in the classroom
+    students = classroom.students.all()
+    return render(request, 'classroom_detail.html', {'classroom': classroom, 'students': students})
 
 def logout_user(request):
     logout(request)

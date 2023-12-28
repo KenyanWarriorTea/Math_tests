@@ -80,6 +80,28 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+.list-group-item {
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between items */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
+
+.list-group-item a {
+    color: #007bff !important; /* Force all links to be blue */
+    text-decoration: none; /* Removes underline from links */
+}
+
+.list-group-item:hover {
+    transform: scale(1.02); /* Slightly enlarges the item on hover */
+    background-color: #e2e6ea; /* Changes background on hover */
+}
+.list-group-item {
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between items */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
 .dropdown {
     position: fixed;
     right: 50px;
@@ -191,7 +213,6 @@ html, body {
     border-radius: 15px;
     box-shadow: 0 9px #999;
 }
-
 .custom-button:hover {background-color: #007bff;
                         color: #fff;
 }
@@ -329,8 +350,12 @@ ul.list-articles li {
 .clear {clear: both;}
 
 .header {
-	background: #0059b2;
-	height: 60px;
+    position: -ms-device-fixed;
+    top: 0;
+    width: 100%;
+    background: #0059b2;
+    z-index: 1000; /* Убедитесь, что это значение достаточно высокое */
+    /* Ваши стили для .header */
 }
 /* Стили для вопросов и ответов */
 .question-container {
@@ -804,4 +829,5 @@ ul.lang-list li {
 
 .create-class-button:hover {
     background-color: #0056b3; /* Изменяем цвет фона при наведении */
+    color: #fff;
 }

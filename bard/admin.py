@@ -1,11 +1,29 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
+
 from .models import MathTopic
 from django.contrib import admin
 from .models import Test, Question, Answer
 from nested_admin import NestedStackedInline, NestedModelAdmin
 # Register your models here.
 
+from django.contrib import admin
+from .models import Classroom
 
+# Optional: If you want to customize the admin interface for Classroom
+class ClassroomAdmin(admin.ModelAdmin):
+    list_display = ('name', 'teacher')  # Fields to display in the admin list view
+    search_fields = ('name',)  # Fields to be searched in the admin
+    list_filter = ('teacher',)  # Filters to be applied in the admin
+
+    # This function is useful if you want to customize how the many-to-many field is displayed
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "students":
+            kwargs["queryset"] = User.objects.filter(is_staff=False)  # Example: Filter to non-staff users
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+# Register your models here.
+admin.site.register(Classroom, ClassroomAdmin)
 class AnswerInline(NestedStackedInline):
     model = Answer
     extra = 1  # Количество форм для новых ответов
@@ -20,7 +38,6 @@ class TestAdmin(NestedModelAdmin):
     list_display = ['title']
     inlines = [QuestionInline]
     # Другие настройки админ-панели для Test
-
 
 @admin.register(MathTopic)
 class MathTopicAdmin(admin.ModelAdmin):

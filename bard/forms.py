@@ -9,6 +9,7 @@ from django import forms
 from django import forms
 from django.contrib.auth.models import User
 
+
 class AddStudentForm(forms.Form):
     username = forms.CharField(label='Логин студента', max_length=150)
 
@@ -23,11 +24,11 @@ class ClassroomForm(forms.ModelForm):
         model = Classroom
         fields = ['name']
 
-        def clean_name(self):
-            name = self.cleaned_data['name']
-            if Classroom.objects.filter(name=name).exists():
-                raise ValidationError("Класс с таким именем уже существует.")
-            return name
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        if Classroom.objects.filter(name=name).exists():
+            raise ValidationError("Класс с таким именем уже существует.")
+        return name
 
 
 class RegisterUserForm(UserCreationForm):

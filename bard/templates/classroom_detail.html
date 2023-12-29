@@ -118,7 +118,6 @@
 	{% block breadcrumbs %}
 	{% endblock %}
 <body>
-    <!-- Весь ваш предыдущий код -->
     <div class="container3">
         <div class="header3">
             <h1>{{ classroom.name }}</h1>
@@ -132,52 +131,33 @@
             </form>
         </div>
 
-        <!-- Остальная часть контента -->
+        <div class="form-group3">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="button3 add-button3">Добавить студента</button>
+            </form>
+        </div>
 
         <div class="student-list3">
             <h2>Students</h2>
-        <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="button3 add-button3">Добавить студента</button>
-    </form>
             {% for student in students %}
-
                 <div class="student-item3">
-                    <!-- Ссылка на профиль и остальной контент -->
-
-                    <!-- Кнопка для удаления студента из класса -->
+                    <a href="{% url 'profile_student' student.id %}" class="student-link3">{{ student.username }}</a>
                     <form method="post" action="{% url 'remove_student_from_classroom' classroom.id student.id %}" style="display: inline;" onsubmit="return confirmDeletion();">
                         {% csrf_token %}
                         <button type="submit" class="button3 delete-button3">Удалить ученика</button>
                     </form>
                 </div>
             {% empty %}
-                <p>Студентов еще нет.</p>
+                <p>Студентов еще нет.<p>
             {% endfor %}
         </div>
     </div>
-</body>
 <script>
-    var language = '{{ request.session.language }}'; // Получаем значение из сессии
-
-    // Функция для установки языка страницы
-    function setLanguage() {
-        if (language === 'kazakh') {
-            // Устанавливаем казахский язык
-            document.documentElement.lang = 'kk';
-        } else {
-            // Устанавливаем русский язык (по умолчанию)
-            document.documentElement.lang = 'ru';
-        }
-    }
-
-    // Вызываем функцию для установки языка при загрузке страницы
-    setLanguage();
         function confirmDeletion() {
             return confirm('Вы уверены, что хотите удалить?');
         }
-
     </script>
 </body>
 </html>

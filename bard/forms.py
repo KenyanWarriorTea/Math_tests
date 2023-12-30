@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 
 
 class AddStudentForm(forms.Form):
-    username = forms.CharField(label='Логин студента', max_length=150)
+    username_or_email = forms.CharField(label='Логин или почта ученика', max_length=100)
 
     def clean_username(self):
         username = self.cleaned_data['username']

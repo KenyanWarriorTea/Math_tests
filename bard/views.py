@@ -8,6 +8,8 @@ from .utils import *
 from django.shortcuts import get_object_or_404
 from .models import TestResult, Test
 from django.contrib import messages
+from django.shortcuts import redirect
+
 import random
 from .models import MathTopic
 from .forms import RegisterUserForm
@@ -190,22 +192,26 @@ def classroom_detail(request, classroom_id):
 
     if request.method == 'POST':
         if form.is_valid():
-            student_username = form.cleaned_data['username']
-            try:
-                student = User.objects.get(username=student_username)
+            student_identifier = form.cleaned_data['username_or_email']
 
+            # Determine if the identifier is an email or username
+            try:
+                if '@' in student_identifier:
+                    student = User.objects.get(email=student_identifier)
+                else:
+                    student = User.objects.get(username=student_identifier)
+
+                # Rest of your logic
                 if student == classroom.teacher:
                     messages.error(request, 'Вы не можете добавить учителя в класс.')
                 elif student in students:
                     messages.error(request, 'Этот студент уже добавлен.')
-                elif ClassroomJoinRequest.objects.filter(classroom=classroom, student=student).exists():
-                    messages.error(request, 'Запрос этому студенту уже отправлен.')
                 else:
                     ClassroomJoinRequest.objects.create(classroom=classroom, student=student)
                     messages.success(request, 'Запрос отправлен студенту.')
 
             except User.DoesNotExist:
-                messages.error(request, 'Пользователь с таким логином не найден.')
+                messages.error(request, 'Пользователь с таким идентификатором не найден.')
         else:
             messages.error(request, 'Ошибка в форме.')
 
@@ -221,7 +227,6 @@ def classroom_detail(request, classroom_id):
 def manage_join_requests(request):
     join_requests = ClassroomJoinRequest.objects.filter(student=request.user, is_accepted=False)
     return render(request, 'manage_join_requests.html', {'join_requests': join_requests})
-from django.shortcuts import redirect
 
 
 def set_language_to_russian(request):

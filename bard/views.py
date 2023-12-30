@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from .forms import *
 from .utils import *
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from .models import TestResult, Test
 from django.contrib import messages
 import random
@@ -14,10 +14,9 @@ from .forms import RegisterUserForm
 from django.db import IntegrityError
 from .forms import ClassroomForm
 from .models import Classroom
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import UserProfile
 from django.contrib.auth.decorators import login_required
-
 
 
 def math_topic_details(request, topic_id):
@@ -25,7 +24,7 @@ def math_topic_details(request, topic_id):
     test_id = ...
     context = {
         'topic': topic,
-        'your_test_id': test_id  # убедитесь, что здесь правильный test_id
+        'your_test_id': test_id
     }
     return render(request, 'topic_details.html', {'topic': topic})
 
@@ -33,8 +32,6 @@ def math_topic_details(request, topic_id):
 def test_results(request, test_id):
     test = Test.objects.get(id=test_id)
     user = request.user
-
-    # Получаем результаты теста для пользователя
     user_test_result = TestResult.objects.filter(user=user, test=test).first()
 
     context = {
@@ -71,8 +68,6 @@ def create_classroom(request):
 def test_view(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
 
-
-    # Проверка, были ли вопросы уже перемешаны и сохранены в сессии
     if 'questions_order' not in request.session:
         questions = list(Question.objects.filter(test=test))
         random.shuffle(questions)
@@ -92,28 +87,30 @@ def test_view(request, test_id):
 def profile(request):
     user = request.user
     tests = Test.objects.all()
-    try:
-        user_profile = UserProfile.objects.get(user=user)
-        classrooms = user_profile.classrooms.all()
-    except UserProfile.DoesNotExist:
-        classrooms = Classroom.objects.filter(teacher=user)
-
-
-
-    test_results = {}
-    for test in tests:
-        user_test_result = TestResult.objects.filter(user=user, test=test).first()
-        test_results[test] = user_test_result
 
     try:
         user_profile = UserProfile.objects.get(user=user)
         full_name = user_profile.full_name
         status = user_profile.status
-        classrooms = user_profile.classrooms.all()  # Получите классы пользователя
+
+        # If the user is a student, fetch the classrooms they are part of with teacher's full name
+        if status == "student":
+            classrooms = Classroom.objects.filter(students=user).select_related('teacher')
+            classrooms = [
+                {
+                    'name': classroom.name,
+                    'teacher_full_name': UserProfile.objects.get(user=classroom.teacher).full_name
+                } for classroom in classrooms
+            ]
+        else:
+            classrooms = user_profile.classrooms.all()  # For teachers
+
     except UserProfile.DoesNotExist:
         full_name = ""
         status = ""
         classrooms = []
+
+    test_results = {test: TestResult.objects.filter(user=user, test=test).first() for test in tests}
 
     context = {
         'user': user,
@@ -185,22 +182,41 @@ class LoginUser(DataMixin, LoginView):
 def classroom_detail(request, classroom_id):
     classroom = get_object_or_404(Classroom, id=classroom_id)
 
-
     if request.user != classroom.teacher:
-        return redirect('home')  # Или страница ошибки
-
-    if request.method == 'POST':
-        form = AddStudentForm(request.POST)
-        if form.is_valid():
-            student_username = form.cleaned_data['username']
-            student = User.objects.get(username=student_username)
-            ClassroomJoinRequest.objects.create(classroom=classroom, student=student)
-
-    else:
-        form = AddStudentForm()
+        return redirect('home')  # Redirect if not the teacher of the classroom
 
     students = classroom.students.all()
-    return render(request, 'classroom_detail.html', {'classroom': classroom, 'students': students, 'form': form})
+    form = AddStudentForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            student_username = form.cleaned_data['username']
+            try:
+                student = User.objects.get(username=student_username)
+
+                if student == classroom.teacher:
+                    messages.error(request, 'Вы не можете добавить учителя в класс.')
+                elif student in students:
+                    messages.error(request, 'Этот студент уже добавлен.')
+                elif ClassroomJoinRequest.objects.filter(classroom=classroom, student=student).exists():
+                    messages.error(request, 'Запрос этому студенту уже отправлен.')
+                else:
+                    ClassroomJoinRequest.objects.create(classroom=classroom, student=student)
+                    messages.success(request, 'Запрос отправлен студенту.')
+
+            except User.DoesNotExist:
+                messages.error(request, 'Пользователь с таким логином не найден.')
+        else:
+            messages.error(request, 'Ошибка в форме.')
+
+    context = {
+        'classroom': classroom,
+        'students': students,
+        'form': form
+    }
+
+    return render(request, 'classroom_detail.html', context)
+
 @login_required
 def manage_join_requests(request):
     join_requests = ClassroomJoinRequest.objects.filter(student=request.user, is_accepted=False)
@@ -249,14 +265,12 @@ def remove_student_from_classroom(request, classroom_id, student_id):
     if request.method == 'POST':
         classroom.students.remove(student)
         return redirect('classroom_detail', classroom_id=classroom_id)
-    return render(request, 'classroom_detail', {'classroom': classroom, 'student': student})
+    return render(request, 'classroom_detail.html', {'classroom': classroom, 'student': student})
 @login_required
 def student_profile(request, user_id):
     student = get_object_or_404(User, pk=user_id)
-    # Предполагая, что у вас есть модель UserProfile с дополнительной информацией
     user_profile = UserProfile.objects.filter(user=student).first()
 
-    # Получаем результаты тестов студента
     test_results = TestResult.objects.filter(user=student)
 
     context = {
@@ -267,9 +281,11 @@ def student_profile(request, user_id):
 
     return render(request, 'student_profile.html', context)
 
+
 def logout_user(request):
     logout(request)
     return redirect('login')
+
 
 @login_required
 def process_test(request, test_id):

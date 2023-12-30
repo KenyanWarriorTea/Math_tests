@@ -2,33 +2,42 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>Профиль</title>
     <link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
-    <link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<head>
 <body>
-<table class="table-page" border=0 cellpadding="0" cellspacing="0">
-<tr><td valign=top>
 {% block mainmenu %}
-		<div class="header">
-			<ul id="mainmenu" class="mainmenu">
-			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
-{% for m in menu %}
+  <div class="header">
+    <ul id="mainmenu" class="mainmenu">
+      <li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
+      <div class="dropdown2">
+    <button class="dropbtn" id="menuBtn">Меню</button>
+    <div class="dropdown2-content">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'profile' %}">{{ user.username }}(профиль)</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+      {% else %}
+            <a href="{% url 'register' %}"> Регистрация</a>
+            <a href="{% url 'login' %}">Войти</a>
+      {% endif %}
+    </div>
+</div>
+      <!-- End Dropdown Menu -->
 
-{% endfor %}
-				{% if request.user.is_authenticated %}
-                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
-                {% else %}
-                <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
-                 {% endif %}
-			</ul>
-			<div class="clear"></div>
-		</div>
+      {% if request.user.is_authenticated %}
+        <li class="last"><a href="{% url 'profile' %}">{{ user.username }}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+      {% else %}
+        <li class="last"><a href="{% url 'register' %}"> Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+      {% endif %}
+    </ul>
+    <div class="clear"></div>
+  </div>
 {% endblock mainmenu %}
-
 
 <table class="table-content" border=0 cellpadding="0" cellspacing="0">
 <tr>
@@ -53,14 +62,7 @@
 
 	</ul>
 </td>
-<!-- Конец Sidebar'а -->
 <td valign="top" class="content">
-	<!-- Хлебные крошки -->
-	{% block breadcrumbs %}
-	{% endblock %}
-<head>
-  <meta charset="UTF-8">
-</head>
 <body>
     {% csrf_token %}
     <div class="profile-container">
@@ -73,15 +75,26 @@
             <p>Статус: <span>{{ status }}</span></p>
         </div>
     {% if status == "student" %}
+    <h2>Мой классы:</h2>
+    <ul>
+    {% for classroom in classrooms %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">{{ classroom.name }} - Учитель: {{ classroom.teacher_full_name }}</li>
+    {% empty %}
+        <p>Вы еще не зачислены ни в один класс.</p>
+    {% endfor %}
+    </ul>
+{% endif %}
+    {% if status == "student" %}
         <a href="{% url 'manage_join_requests' %}" class="create-class-button">Запросы</a>
         <hr>
     {% endif %}
+
     {% if status == "teacher" %}
     <a href="{% url 'create_class' %}" class="create-class-button">Создать класс</a>
 
-
-        <HR>
+<hr>
         <h2>Ваши классы:</h2>
+
    <ul class="list-group">
     {% for classroom in classrooms %}
         <a href="{% url 'classroom_detail' classroom.id %}" class="text-decoration-none">

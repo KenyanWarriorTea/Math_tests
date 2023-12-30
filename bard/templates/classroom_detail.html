@@ -135,6 +135,13 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
+                {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
                 <button type="submit" class="button3 add-button3">Добавить студента</button>
             </form>
         </div>

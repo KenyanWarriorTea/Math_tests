@@ -352,10 +352,8 @@ ul.list-articles li {
 .header {
     position: -ms-device-fixed;
     top: 0;
-    width: 100%;
     background: #0059b2;
-    z-index: 1000; /* Убедитесь, что это значение достаточно высокое */
-    /* Ваши стили для .header */
+    z-index: 1000;
 }
 /* Стили для вопросов и ответов */
 .question-container {
@@ -696,7 +694,7 @@ ul.lang-list li {
 }
 @media (max-width: 768px) {
     /* Стили для мобильных устройств */
-    .header, .mainmenu {
+    .mainmenu {
         /* Пример: уменьшение размера шрифта для меню */
         font-size: 14px;
     }
@@ -728,51 +726,8 @@ ul.lang-list li {
 
     /* Дополнительные стили для мобильных устройств */
 }
-.header__burger{
-	display: none;
-}
-
 @media (max-width: 768px) {
-    .header {
-        position: relative; /* Для позиционирования бургер-иконки относительно шапки */
-    }
-    .header__burger {
-        display: block;
-        position: absolute; /* Абсолютное позиционирование */
-        top: 15px; /* Отступ сверху */
-        right: 10px; /* Отступ справа */
-        width: 30px;
-        height: 20px;
-        cursor: pointer; /* Курсор в виде указателя */
-    }
-	.header__burger span{
-		position: absolute;
-		background-color: #ffffff;
-		width: 100%;
-		left: 0;
-		height: 2px;
-		top: 9px;
-	}
-    .header__burger:before,
-    .header__burger:after{
-		content: '';
-		background-color: #fff;
-		position: absolute;
-		width: 100%;
-		height: 2px;
-		left: 0;
-	}
-    .header__burger:before {
-        top: 0;
-    }
 
-    .header__burger:after {
-        bottom: 0;
-    }
-	.header__burger {
-        display: block;
-        /* Остальные стили .header__burger */
-    }
 	.mainmenu {
         background-color: #0059b2; /* Или любой другой желаемый цвет фона */
         width: 100%;
@@ -784,27 +739,9 @@ ul.lang-list li {
 
     .mainmenu.active {
         display: block;
-    }
+    }    }
 
-    /* Стили для анимации бургер-иконки */
-    .header__burger span,
-    .header__burger:before,
-    .header__burger:after {
-        transition: all 0.3s ease-in-out;
-    }
 
-    .header__burger.active span {
-        opacity: 0;
-    }
-
-    .header__burger.active:before {
-        transform: translateY(9px) rotate(45deg);
-    }
-
-    .header__burger.active:after {
-        transform: translateY(-9px) rotate(-45deg);
-    }
-}
 .tooltip {
     display: none;
     position: absolute;

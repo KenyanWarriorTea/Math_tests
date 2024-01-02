@@ -25,7 +25,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000  # Увеличьте это число в 
 SECRET_KEY = 'django-insecure-n8w=4jpgq6tlkw-g!9+ot)2o8*d6m(xb#+2a9&6g_7&g8*1w5+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 

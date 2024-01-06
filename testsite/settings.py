@@ -25,13 +25,15 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000  # Увеличьте это число в 
 SECRET_KEY = 'django-insecure-n8w=4jpgq6tlkw-g!9+ot)2o8*d6m(xb#+2a9&6g_7&g8*1w5+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-ALLOWED_HOSTS = ['www.simpletests.ru']
+DEBUG = True
 
 
-
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'asllsackl@gmail.com'  # Ваш адрес Gmail
+EMAIL_HOST_PASSWORD = 'lbwphywdcbziqzhu'
 # Application definition
 
 INSTALLED_APPS = [

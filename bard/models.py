@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth.models import User
 from django.urls import reverse
 from ckeditor.fields import RichTextField
@@ -5,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from django.dispatch import receiver
+import uuid
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -100,28 +102,6 @@ class Answer(models.Model):
     # Остальные поля...
 
 
-class Women(models.Model):
-    title = models.CharField(max_length=255, verbose_name="Заголовок")
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
-    content = models.TextField(blank=True, verbose_name="Текст статьи")
-    photo = models.ImageField(upload_to="photos/%Y/%m/%d/", verbose_name="Фото")
-    time_create = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
-    time_update = models.DateTimeField(auto_now=True, verbose_name="Время изменения")
-    is_published = models.BooleanField(default=True, verbose_name="Публикация")
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name="Категории")
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse('post', kwargs={'post_slug': self.slug})
-
-    class Meta:
-        verbose_name = 'Известные женщины'
-        verbose_name_plural = 'Известные женщины'
-        ordering = ['id']
-
-
 class Category(models.Model):
     name = models.CharField(max_length=100, db_index=True, verbose_name="Категория")
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
@@ -130,3 +110,14 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['id']
+
+class ConfirmationCode(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6)
+
+    @staticmethod
+    def generate_code():
+        return str(random.randint(100000, 999999))  # Generates a six-digit code
+
+    def __str__(self):
+        return f"Code for {self.user.username}: {self.code}"

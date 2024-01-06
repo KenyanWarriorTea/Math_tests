@@ -52,3 +52,4 @@ class QuestionAdmin(admin.ModelAdmin):
 class AnswerAdmin(admin.ModelAdmin):
     list_display = ['text', 'question', 'is_correct']
     # Другие настройки админ-панели для Answer
+

@@ -1,15 +1,20 @@
+import json
+
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.views.generic import ListView, CreateView, TemplateView
 from .forms import *
 from .utils import *
 from django.shortcuts import get_object_or_404
 from .models import TestResult, Test
 from django.contrib import messages
 from django.shortcuts import redirect
-
+from .utils import send_email
 import random
 from .models import MathTopic
 from .forms import RegisterUserForm
@@ -125,25 +130,46 @@ def profile(request):
 
     return render(request, 'profile.html', context)
 
-class Home(DataMixin, ListView):
-    model = Women
-    template_name = 'index.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
+class Home(TemplateView):
+    template_name = 'base.html'
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Главная страница")
-        return dict(list(context.items()) + list(c_def.items()))
+        # You can add more context variables if needed
+        return context
+class Home2(TemplateView):
+    template_name = 'base2.html'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # You can add more context variables if needed
+        return context
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
+@require_POST
+@csrf_exempt
+def send_confirmation_code(request):
+    data = json.loads(request.body)
+    email = data.get('email')
+    print("Email received:", email)
+
+
+    if not email:
+        return JsonResponse({'message': 'Email is required'}, status=400)
+
+    # Generate a new confirmation code
+    code = ConfirmationCode.generate_code()
+
+    # Send the code to the provided email
+    send_email('Your Confirmation Code', 'Code: ' + code, [email])
+
+    return JsonResponse({'message': 'Confirmation code sent'})
 
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('login')  # Redirect to login after registration
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -151,19 +177,14 @@ class RegisterUser(DataMixin, CreateView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def form_valid(self, form):
-        # Создайте пользователя
         user = form.save()
-
-        # Создайте профиль пользователя и свяжите его с пользователем
         full_name = form.cleaned_data.get('full_name')
         status = form.cleaned_data.get('status')
         UserProfile.objects.create(user=user, full_name=full_name, status=status)
+        # Optionally, you can add a message to the user here, using Django's messages framework
 
-        # Авторизуйте пользователя
-        login(self.request, user)
-        return redirect('home')
-
-
+        # Redirect to the specified URL
+        return redirect(self.get_success_url())
 
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
@@ -331,15 +352,5 @@ def process_test(request, test_id):
 
         except Test.DoesNotExist:
             return redirect('profile')
-
-
-class Home2(DataMixin, ListView):
-    model = Women
-    template_name = 'base2.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Басты бет")
-        return dict(list(context.items()) + list(c_def.items()))
 
 

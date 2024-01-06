@@ -65,11 +65,25 @@
         <h1>Результаты Теста: {{ test.title }}</h1>
         <p><strong>Итоговый результат:</strong> {{ user_test_result.score }} из 30</p>
 
+        {% if user_test_result.score == 30 %}
+            <p>Потрясающе! Вы достигли максимального результата!</p>
+        {% elif user_test_result.score >= 25 %}
+            <p>Отличная работа! Вы почти достигли максимума!</p>
+        {% elif user_test_result.score >= 20 %}
+            <p>Хорошо! Вы на правильном пути!</p>
+        {% elif user_test_result.score >= 15 %}
+            <p>Неплохо, но есть куда стремиться!</p>
+        {% elif user_test_result.score > 0 %}
+            <p>Хорошее начало, продолжайте учиться и улучшать результаты!</p>
+        {% else %}
+            <p>Похоже, вы не набрали очков. Попробуйте еще раз!</p>
+        {% endif %}
+
         <!-- Ссылки для повторного прохождения теста или возврата на главную страницу -->
         <a href="{% url 'test_view' test.id %}" id="retry-test-button" class="custom-button">Пройти тест еще раз</a>
         <a href="{% url 'home' %}" id="return-home-button" class="custom-button">Вернуться на главную страницу</a>
-
     </div>
+</body>
 <script>
     var topicId = {{ topic.id }};
     var lang = (topicId > 0) ? 'kk' : 'ru';

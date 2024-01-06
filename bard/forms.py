@@ -49,6 +49,7 @@ class RegisterUserForm(UserCreationForm):
     full_name = forms.CharField(label='ФИО', widget=forms.TextInput(attrs={'class': 'form-input'}))
     status = forms.ChoiceField(label='Статус', choices=STATUS_CHOICES,
                                widget=forms.Select(attrs={'class': 'form-input'}))
+    confirmation_code = forms.CharField(max_length=6, required=True)
 
     class Meta:
         model = User

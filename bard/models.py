@@ -110,14 +110,3 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['id']
-
-class ConfirmationCode(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    code = models.CharField(max_length=6)
-
-    @staticmethod
-    def generate_code():
-        return str(random.randint(100000, 999999))  # Generates a six-digit code
-
-    def __str__(self):
-        return f"Code for {self.user.username}: {self.code}"

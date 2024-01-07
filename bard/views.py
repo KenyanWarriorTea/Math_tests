@@ -1,20 +1,16 @@
-import json
-
 from django.contrib.auth import logout, login
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
+from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.views.generic import ListView, CreateView, TemplateView
+from django.views.generic import ListView, CreateView
 from .forms import *
 from .utils import *
 from django.shortcuts import get_object_or_404
 from .models import TestResult, Test
 from django.contrib import messages
 from django.shortcuts import redirect
-from .utils import send_email
+from django.views.generic import TemplateView
 import random
 from .models import MathTopic
 from .forms import RegisterUserForm
@@ -130,12 +126,16 @@ def profile(request):
 
     return render(request, 'profile.html', context)
 
+def pageNotFound(request, exception):
+    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 class Home(TemplateView):
     template_name = 'base.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # You can add more context variables if needed
         return context
+
 class Home2(TemplateView):
     template_name = 'base2.html'
 
@@ -143,49 +143,57 @@ class Home2(TemplateView):
         context = super().get_context_data(**kwargs)
         # You can add more context variables if needed
         return context
-def pageNotFound(request, exception):
-    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 
-@require_POST
-@csrf_exempt
-def send_confirmation_code(request):
-    data = json.loads(request.body)
-    email = data.get('email')
-    print("Email received:", email)
+class RegisterUserView(View):
+    def get(self, request, *args, **kwargs):
+        form = RegisterUserForm()
+        return render(request, 'register.html', {'form': form})
 
+    def post(self, request, *args, **kwargs):
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            # Сохранение данных формы в сессии
+            request.session['registration_data'] = form.cleaned_data
 
-    if not email:
-        return JsonResponse({'message': 'Email is required'}, status=400)
+            # Генерация кода подтверждения
+            confirmation_code = random.randint(100000, 999999)
+            request.session['confirmation_code'] = confirmation_code
 
-    # Generate a new confirmation code
-    code = ConfirmationCode.generate_code()
+            # Отправка кода на почту пользователя
+            send_mail(
+                'Код подтверждения',
+                f'Ваш код подтверждения: {confirmation_code}',
+                'asllsackl@gmail.com',
+                [form.cleaned_data['email']],
+                fail_silently=False,
+            )
+            return redirect('email_confirmation')
+        return render(request, 'register.html', {'form': form})
 
-    # Send the code to the provided email
-    send_email('Your Confirmation Code', 'Code: ' + code, [email])
+class EmailConfirmationView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'email_confirmation.html')
 
-    return JsonResponse({'message': 'Confirmation code sent'})
-
-class RegisterUser(DataMixin, CreateView):
-    form_class = RegisterUserForm
-    template_name = 'register.html'
-    success_url = reverse_lazy('login')  # Redirect to login after registration
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Регистрация / Тіркелу")
-        return dict(list(context.items()) + list(c_def.items()))
-
-    def form_valid(self, form):
-        user = form.save()
-        full_name = form.cleaned_data.get('full_name')
-        status = form.cleaned_data.get('status')
-        UserProfile.objects.create(user=user, full_name=full_name, status=status)
-        # Optionally, you can add a message to the user here, using Django's messages framework
-
-        # Redirect to the specified URL
-        return redirect(self.get_success_url())
-
+    def post(self, request, *args, **kwargs):
+        user_code = request.POST.get('code')
+        if user_code == str(request.session.get('confirmation_code')):
+            # Создание пользователя
+            registration_data = request.session.get('registration_data')
+            user = User.objects.create_user(
+                username=registration_data['username'],
+                email=registration_data['email'],
+                password=registration_data['password1'],
+                # Добавьте другие поля, если необходимо
+            )
+            UserProfile.objects.create(user=user, full_name=registration_data['full_name'], status=registration_data['status'])
+            # Очистка сессии
+            del request.session['registration_data']
+            del request.session['confirmation_code']
+            return redirect('home')
+        else:
+            # Обработка ошибки ввода кода
+            return render(request, 'email_confirmation.html', {'error': 'Неверный код подтверждения'})
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
     template_name = 'login.html'
@@ -352,5 +360,3 @@ def process_test(request, test_id):
 
         except Test.DoesNotExist:
             return redirect('profile')
-
-

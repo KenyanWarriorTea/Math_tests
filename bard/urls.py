@@ -6,13 +6,13 @@ from .views import *
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
-    path('send-code/', send_confirmation_code, name='send_confirmation_code'),
+    path('email-confirmation/', EmailConfirmationView.as_view(), name='email_confirmation'),
     path('classroom/<int:classroom_id>/', views.classroom_detail, name='classroom_detail'),
     path('topics/<int:topic_id>/', math_topic_details, name='topic_details'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
     path('test/<int:test_id>/', views.test_view, name='test_view'),
-    path('register/', RegisterUser.as_view(), name='register'),
+    path('register/', RegisterUserView.as_view(), name='register'),
     path('profile/', profile, name='profile'),
     path('kz/', Home2.as_view(), name="home2"),
     path('process_test/<int:test_id>/', process_test, name='process_test'),

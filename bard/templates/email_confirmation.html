@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link type="text/css" href="{% static '/css/styles.css' %}" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static '/images/logo1.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+<tr><td valign=top>
+{% block mainmenu %}
+		<div class="header">
+			<ul id="mainmenu" class="mainmenu">
+			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
+{% for m in menu %}
+
+{% endfor %}
+				{% if request.user.is_authenticated %}
+                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти/Шығу</a></li>
+                {% else %}
+                <li class="last"><a href="{% url 'register' %}">Регистрация/Тіркелу</a> | <a href="{% url 'login' %}">Войти/Кіру</a></li>
+                 {% endif %}
+			</ul>
+			<div class="clear"></div>
+		</div>
+{% endblock mainmenu %}
+
+{% block content %}
+<div class="email-confirmation-container">
+    <h1>Подтверждение почты</h1>
+    <p>Введите код подтверждения, отправленный на вашу электронную почту.</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="code" placeholder="6-значный код" required>
+        <button type="submit" class="submit-button">Подтвердить</button>
+    </form>
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+</div>
+{% endblock %}
+</body>
+</html>

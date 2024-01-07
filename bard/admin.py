@@ -9,7 +9,26 @@ from nested_admin import NestedStackedInline, NestedModelAdmin
 
 from django.contrib import admin
 from .models import Classroom
+from django.contrib import admin
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+from .models import UserProfile
 
+# Unregister the original User admin
+admin.site.unregister(User)
+
+class CustomUserAdmin(UserAdmin):
+    # Add an additional list_display field
+    list_display = UserAdmin.list_display + ('user_status',)
+
+    def user_status(self, obj):
+        # Get the user's status from UserProfile
+        profile = UserProfile.objects.filter(user=obj).first()
+        return profile.status if profile else 'Unknown'
+    user_status.short_description = 'Status'
+
+# Register the custom admin class with the User model
+admin.site.register(User, CustomUserAdmin)
 # Optional: If you want to customize the admin interface for Classroom
 class ClassroomAdmin(admin.ModelAdmin):
     list_display = ('name', 'teacher')  # Fields to display in the admin list view

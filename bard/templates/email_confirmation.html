@@ -30,9 +30,52 @@
 {% endblock mainmenu %}
 
 {% block content %}
+<style>
+    .email-confirmation-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+        text-align: center;
+    }
+
+    .submit-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        margin: 20px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .submit-button:hover {
+        background-color: #45a049;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .error-message {
+        color: red;
+        margin-top: 10px;
+    }
+</style>
+
 <div class="email-confirmation-container">
     <h1>Подтверждение почты</h1>
     <p>Введите код подтверждения, отправленный на вашу электронную почту.</p>
+    <p style="color: red;">Если вам не приходит письмо проверьте СПАМ!!!</p>
     <form method="post">
         {% csrf_token %}
         <input type="text" name="code" placeholder="6-значный код" required>

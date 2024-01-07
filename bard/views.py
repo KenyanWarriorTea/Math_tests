@@ -4,6 +4,7 @@ from django.http import HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView
+from .mixin import UnauthenticatedUserMixin
 from .forms import *
 from .utils import *
 from django.shortcuts import get_object_or_404
@@ -145,7 +146,7 @@ class Home2(TemplateView):
         return context
 
 
-class RegisterUserView(View):
+class RegisterUserView(UnauthenticatedUserMixin, View):
     def get(self, request, *args, **kwargs):
         form = RegisterUserForm()
         return render(request, 'register.html', {'form': form})
@@ -171,7 +172,7 @@ class RegisterUserView(View):
             return redirect('email_confirmation')
         return render(request, 'register.html', {'form': form})
 
-class EmailConfirmationView(View):
+class EmailConfirmationView(UnauthenticatedUserMixin, View):
     def get(self, request, *args, **kwargs):
         return render(request, 'email_confirmation.html')
 
@@ -190,6 +191,7 @@ class EmailConfirmationView(View):
             # Очистка сессии
             del request.session['registration_data']
             del request.session['confirmation_code']
+            login(self.request, user)
             return redirect('home')
         else:
             # Обработка ошибки ввода кода

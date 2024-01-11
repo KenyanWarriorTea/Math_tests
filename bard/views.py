@@ -72,21 +72,23 @@ def create_classroom(request):
 def test_view(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
 
-    if 'questions_order' not in request.session:
-        questions = list(Question.objects.filter(test=test))
-        random.shuffle(questions)
-        questions = questions[:30]
-        request.session['questions_order'] = [q.id for q in questions]
-    else:
+    # Check if 'questions_order' is in the session
+    if 'questions_order' in request.session and request.session['current_test_id'] == test_id:
         questions_ids = request.session['questions_order']
         questions = [Question.objects.get(id=qid) for qid in questions_ids]
+    else:
+        # If 'questions_order' is not in the session or the test ID has changed
+        questions = list(Question.objects.filter(test=test))
+        random.shuffle(questions)
+        questions = questions[:30]  # Adjust the number of questions as needed
+        request.session['questions_order'] = [q.id for q in questions]
+        request.session['current_test_id'] = test_id
 
-    # Загрузка сохраненных ответов
+    # Load saved answers
     saved_answers = {key.split('_')[1]: request.session[key] for key in request.session.keys() if key.startswith('answer_')}
 
     context = {'test': test, 'questions': questions, 'saved_answers': saved_answers}
     return render(request, 'test.html', context)
-
 @login_required
 def profile(request):
     user = request.user

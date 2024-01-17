@@ -10,6 +10,7 @@ urlpatterns = [
     path('email-confirmation/', EmailConfirmationView.as_view(), name='email_confirmation'),
     path('classroom/<int:classroom_id>/', views.classroom_detail, name='classroom_detail'),
     path('topics/<int:topic_id>/', math_topic_details, name='topic_details'),
+    path('test-history/<int:test_id>/', views.test_history, name='test_history'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
     path('test/<int:test_id>/', views.test_view, name='test_view'),

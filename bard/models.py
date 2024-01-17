@@ -1,4 +1,5 @@
 import random
+from django.utils import timezone
 
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -64,8 +65,10 @@ class UserTestResult(models.Model):
         self.percentage = self.calculate_percentage()
         super().save(*args, **kwargs)
 
-
+def get_default_date_taken():
+    return timezone.now()
 class TestResult(models.Model):
+    date_taken = models.DateTimeField(default=get_default_date_taken)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     score = models.IntegerField(default=0)

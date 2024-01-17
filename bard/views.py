@@ -68,7 +68,6 @@ def create_classroom(request):
 
     return render(request, 'create_classroom.html', {'form': form})
 
-
 def test_view(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
 
@@ -378,3 +377,16 @@ def process_test(request, test_id):
 
         except Test.DoesNotExist:
             return redirect('profile')
+
+
+@login_required
+def test_history(request, test_id):
+    test = get_object_or_404(Test, pk=test_id)
+    test_results = TestResult.objects.filter(test=test).order_by('-date_taken')
+
+    context = {
+        'test': test,
+        'test_results': test_results,
+    }
+    return render(request, 'test_history.html', context)
+

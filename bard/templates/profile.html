@@ -122,7 +122,7 @@
         <div class="test-results">
             {% for test_result in user.testresult_set.all %}
                 <div class="test-result">
-                    <h3>Тест "{{ test_result.test.title }}":</h3>
+                    <h3><a href="{% url 'test_history' test_result.test.id %}">Тест "{{ test_result.test.title }}"</a>:</h3>
                     <p>Последний балл: <span>{{ test_result.score }}</span></p>
                     <p>Лучший балл: <span>{{ test_result.best_score }}</span></p>
                 </div>

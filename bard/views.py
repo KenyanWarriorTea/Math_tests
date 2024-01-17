@@ -216,9 +216,8 @@ class LoginUser(DataMixin, LoginView):
 @login_required
 def classroom_detail(request, classroom_id):
     classroom = get_object_or_404(Classroom, id=classroom_id)
-
     if request.user != classroom.teacher:
-        return redirect('home')  # Redirect if not the teacher of the classroom
+        return redirect('home')
 
     students = classroom.students.all()
     form = AddStudentForm(request.POST or None)
@@ -227,34 +226,49 @@ def classroom_detail(request, classroom_id):
         if form.is_valid():
             student_identifier = form.cleaned_data['username_or_email']
 
-            # Determine if the identifier is an email or username
             try:
                 if '@' in student_identifier:
                     student = User.objects.get(email=student_identifier)
                 else:
                     student = User.objects.get(username=student_identifier)
 
-                # Rest of your logic
-                if student == classroom.teacher:
-                    messages.error(request, 'Вы не можете добавить учителя в класс.')
-                elif student in students:
-                    messages.error(request, 'Этот студент уже добавлен.')
-                else:
-                    ClassroomJoinRequest.objects.create(classroom=classroom, student=student)
-                    messages.success(request, 'Запрос отправлен студенту.')
-
+                if student != classroom.teacher and student not in students:
+                    join_request = ClassroomJoinRequest.objects.create(classroom=classroom, student=student)
+                    invitation_link = request.build_absolute_uri(reverse('accept_invitation', args=[join_request.id]))
+                    send_mail(
+                        subject="Invitation to join classroom",
+                        message=f"You have been invited to join the classroom '{classroom.name}'. Click here to join: {invitation_link}",
+                        from_email='asllsackl@gmail.com',
+                        recipient_list=[student.email]
+                    )
+                    messages.success(request, 'Invitation sent to student.')
             except User.DoesNotExist:
-                messages.error(request, 'Пользователь с таким идентификатором не найден.')
-        else:
-            messages.error(request, 'Ошибка в форме.')
+                messages.error(request, 'User not found.')
 
     context = {
         'classroom': classroom,
         'students': students,
         'form': form
     }
-
     return render(request, 'classroom_detail.html', context)
+
+
+@login_required
+def accept_classroom_invitation(request, join_request_id):
+    join_request = get_object_or_404(ClassroomJoinRequest, id=join_request_id, is_accepted=False)
+    classroom = join_request.classroom
+    student = join_request.student
+
+    if request.user != student:
+        # Handle error if the current user is not the invited student
+        messages.error(request, "You are not authorized to accept this invitation.")
+        return redirect('home')
+
+    classroom.students.add(student)
+    join_request.is_accepted = True
+    join_request.save()
+    messages.success(request, f"You have successfully joined the classroom {classroom.name}.")
+    return redirect('classroom_detail', classroom_id=classroom.id)
 
 @login_required
 def manage_join_requests(request):

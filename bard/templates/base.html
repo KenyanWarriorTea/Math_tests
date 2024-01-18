@@ -20,11 +20,10 @@
     <button class="dropbtn" id="menuBtn">Меню</button>
     <div class="dropdown2-content">
         {% if request.user.is_authenticated %}
-        <a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a>
-            <a href="{% url 'profile' %}">{{ user.username }}(профиль)</a>
+            <a href="{% url 'set_language_kazakh' %}">{{ user.username }}(профиль)</a>
             <a href="{% url 'logout' %}">Выйти</a>
       {% else %}
-        <a href="{% url 'home2' %}">Сайтты қазақ тіліне аудару</a>
+        <a href="{% url 'set_language_kazakh' %}">Сайтты қазақ тіліне аудару</a>
             <a href="{% url 'register' %}"> Регистрация</a>
             <a href="{% url 'login' %}">Войти</a>
       {% endif %}

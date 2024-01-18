@@ -19,15 +19,81 @@
 {% for m in menu %}
 
 {% endfor %}
-				{% if request.user.is_authenticated %}
-                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти/Шығу</a></li>
+                    {% if request.session.language == 'russian' %}
+                        <div class="dropdown2">
+    <button class="dropbtn" id="menuBtn">Меню</button>
+    <div class="dropdown2-content">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}">Выйти</a>
+      {% else %}
+            <a href="{% url 'register' %}"> Регистрация</a>
+            <a href="{% url 'login' %}">Войти</a>
+      {% endif %}
+    </div>
+</div>
+{% if request.user.is_authenticated %}
+                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
                 {% else %}
-                <li class="last"><a href="{% url 'register' %}">Регистрация / Тіркеу</a> | <a href="{% url 'login' %}">Войти/Кіру</a></li>
+                <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
                  {% endif %}
+{% elif request.session.language == 'kazakh' %}
+                        <div class="dropdown2">
+    <button class="dropbtn" id="menuBtn">Меню</button>
+    <div class="dropdown2-content">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'profile' %}">{{user.username}}(профиль)</a>
+            <a href="{% url 'logout' %}">Шығу</a>
+                {% else %}
+            <a href="{% url 'register' %}">Тіркелу</a>
+            <a href="{% url 'login' %}">Кіру</a>
+                 {% endif %}
+    </div>
+</div>
+  {% if request.user.is_authenticated %}
+                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Шығу</a></li>
+                {% else %}
+                <li class="last"><a href="{% url 'register' %}">Тіркеу</a> | <a href="{% url 'login' %}">Кіру</a></li>
+                 {% endif %}
+{% else %}
+                        <div class="dropdown2">
+    <button class="dropbtn" id="menuBtn">Меню</button>
+    <div class="dropdown2-content">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'profile' %}">{{user.username}}(профиль)</a>
+            <a href="{% url 'logout' %}">Выйти</a>
+      {% else %}
+            <a href="{% url 'register' %}"> Регистрация</a>
+            <a href="{% url 'login' %}">Войти</a>
+      {% endif %}
+    </div>
+</div>
+  {% if request.user.is_authenticated %}
+                 <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a></li>
+                {% else %}
+                <li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+                 {% endif %}
+{% endif %}
 			</ul>
 			<div class="clear"></div>
 		</div>
 {% endblock mainmenu %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const menuButton = document.getElementById("menuBtn");
+    const dropdownContent = document.querySelector(".dropdown2-content");
+
+    menuButton.addEventListener("click", function(event) {
+        dropdownContent.style.display = (dropdownContent.style.display === "none") ? "block" : "none"; // Изменяем стиль отображения
+        event.stopPropagation();
+    });
+
+    document.addEventListener("click", function(event) {
+        if (!event.target.matches("#menuBtn")) {
+            dropdownContent.style.display = "none"; // Скрываем выпадающий список при клике вне кнопки
+        }
+    });
+});
+</script>
 {% block content %}
 <div class="form-container">
     <h1>{{ title }}</h1>
@@ -44,7 +110,13 @@
             </div>
         {% endfor %}
 
-        <button type="submit" class="submit-button">Войти/Кіру</button>
+        {% if request.session.language == 'russian' %}
+  <button type="submit" class="submit-button">Войти</button>
+{% elif request.session.language == 'kazakh' %}
+  <button type="submit" class="submit-button">Кіру</button>
+{% else %}
+  <button type="submit" class="submit-button">Войти</button>
+{% endif %}
     </form>
 </div>
 {% endblock %}

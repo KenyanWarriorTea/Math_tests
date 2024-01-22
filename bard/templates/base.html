@@ -77,15 +77,33 @@
 </script>
 
 <body>
-  <header>
-    <h1>Математика</h1>
-  </header>
+<header228>
+    <h1>Математика</h1><h2>Тесты</h2>
+  </header228>
 
-  <section class="tests">
-    <h2>Тесты</h2>
+  <body class="tests">
+
 
     <ul class="tests">
-        <li><a href="/topics/1">Тема 1: Отношение двух чисел</a></li>
+        <div class="card">
+  <div class="card-inner">
+<div class="card-front" >
+  <p style="text-shadow: 200px 200px 400px #000000;">Тема 1: Отношение двух чисел</p>
+
+</div>
+
+    <div class="card-back">
+      <a href="/topics/1">Посмотреть тему</a>
+      {% if request.user.is_authenticated %}
+        <a href="/test/1"  >Пройти тест</a>
+{% else %}
+          <a data-topic-id="{{ topic.id }}" onclick="showAlert(this)">Пройти тест</a>
+{% endif %}
+
+
+    </div>
+  </div>
+</div>
         <li><a href="/topics/2">Тема 2: Деление чисел в данном отношении</a></li>
         <li><a href="/topics/3">Тема 3: Процентное отношение двух чисел</a></li>
         <li><a href="/topics/4">Тема 4: Пропорция. Основное свойство пропорции</a></li>
@@ -124,5 +142,15 @@
         <li><a href="/topics/37">Тема 37: Зависимость между величинами. Способы задания зависимостей между величинами</a></li>
         <li><a href="/topics/38">Тема 38: Система линейных уравнений с двумя переменными</a></li>
     </ul>
+      <script>
+          function showAlert(element) {
+        var topicId = element.getAttribute('data-topic-id');
+        var message = topicId > 38
+                      ? 'Тестті өту үшін авторландыру қажет.' // Сообщение на казахском
+                      : 'Для прохождения теста необходимо авторизоваться.'; // Сообщение на русском
+        alert(message);
+    }
+      </script>
 
+  </body>
 </html>

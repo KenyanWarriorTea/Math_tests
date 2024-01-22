@@ -784,3 +784,92 @@ ul.lang-list li {
     background-color: #0056b3; /* Изменяем цвет фона при наведении */
     color: #fff;
 }
+.card {
+  width: 150px;
+  height: 150px;
+  perspective: 150px;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.444s;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+
+}
+
+.card-front {
+  background-color: #0056b3;
+  background-image: url('/static/images/topic1.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  border: 2px solid #0056b3;
+  border-radius: 2px;
+  justify-content: center;
+  font-size: 24px;
+  transform: rotateY(0deg);
+  color: #f8f9fa; /* Цвет текста */
+  -webkit-text-stroke: 1px #000000; /* Толщина и цвет обводки */
+  text-stroke: 1px #000000; /* Толщина и цвет обводки (стандартное свойство) */
+}
+
+.card-back {
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  border: 10px solid #007bff;
+  border-radius: 10px;
+  justify-content: center;
+  font-size: 16px;
+  transform: rotateY(180deg);
+}
+
+
+header228 {
+  background-color: #2E86C1; /* Синий фон, соответствующий образовательной теме */
+  color: #0059b2; /* Белый текст для контраста */
+  padding: 20px 0; /* Вертикальный отступ */
+  text-align: center; /* Центрирование текста */
+  border-bottom: 5px solid #21618C; /* Темно-синяя линия для акцента */
+}
+
+/* Стили для основного заголовка */
+header228 h1 {
+  margin: 0; /* Убираем стандартные отступы */
+  font-size: 3em; /* Увеличенный размер шрифта */
+  font-weight: bold; /* Жирное начертание */
+}
+
+/* Стили для подзаголовка */
+header228 h2 {
+  margin: 10px 0; /* Отступ сверху и снизу */
+  font-size: 1.5em; /* Меньший размер шрифта, чем у основного заголовка */
+  font-weight: lighter; /* Светлое начертание */
+}
+
+/* Добавляем немного стилей для адаптивности на мобильных устройствах */
+@media (max-width: 768px) {
+  header228 h1 {
+    font-size: 2em; /* Меньший размер шрифта для устройств с маленьким экраном */
+  }
+  header228 h2 {
+    font-size: 1em;
+  }
+}

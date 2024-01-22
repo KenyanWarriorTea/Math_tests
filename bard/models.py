@@ -88,7 +88,7 @@ class MathTopic(models.Model):
 
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = RichTextField()
     math_topic = models.ForeignKey(MathTopic, on_delete=models.SET_NULL, null=True, blank=True)
     # Остальные поля...
 
@@ -100,7 +100,7 @@ class Language(models.Model):
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = RichTextField()
     is_correct = models.BooleanField(default=False)
     # Остальные поля...
 

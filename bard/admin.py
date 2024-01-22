@@ -52,6 +52,7 @@ class QuestionInline(NestedStackedInline):
     extra = 1  # Количество форм для новых вопросов
     inlines = [AnswerInline]
 
+
 @admin.register(Test)
 class TestAdmin(NestedModelAdmin):
     list_display = ['title']

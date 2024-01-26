@@ -1,4 +1,5 @@
 from django.urls import path, re_path
+from django.contrib.auth import views as auth_views
 
 
 from . import views
@@ -27,4 +28,16 @@ urlpatterns = [
     path('set-language/russian/', views.set_language_to_russian, name='set_language_russian'),
     path('set-language/kazakh/', views.set_language_to_kazakh, name='set_language_kazakh'),
     path('classroom/<int:classroom_id>/remove_student/<int:student_id>/', views.remove_student_from_classroom, name='remove_student_from_classroom'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset.html'),
+         name='password_reset'),
+    path('password_reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name='registration/password_reset_confirm.html'),
+         name='password_reset_confirm'),
+    path('reset/done/',
+         auth_views.PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),
+         name='password_reset_complete'),
+
 ]

@@ -84,13 +84,29 @@
     const menuButton = document.getElementById("menuBtn");
     const dropdownContent = document.querySelector(".dropdown2-content");
 
+
     menuButton.addEventListener("click", function(event) {
-        dropdownContent.style.display = (dropdownContent.style.display === "none") ? "block" : "none"; // Изменяем стиль отображения
+        dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block"; // Изменяем стиль отображения
         event.stopPropagation();
     });
 
     document.addEventListener("click", function(event) {
         if (!event.target.matches("#menuBtn")) {
+            dropdownContent.style.display = "none"; // Скрываем выпадающий список при клике вне кнопки
+        }
+    });
+});
+    document.addEventListener("DOMContentLoaded", function() {
+    const menuButton = document.getElementById("menuBtn1");
+    const dropdownContent = document.querySelector(".dropdown21-content");
+
+    menuButton.addEventListener("click", function(event) {
+        dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block"; // Изменяем стиль отображения
+        event.stopPropagation();
+    });
+
+    document.addEventListener("click", function(event) {
+        if (!event.target.matches("#menuBtn1")) {
             dropdownContent.style.display = "none"; // Скрываем выпадающий список при клике вне кнопки
         }
     });

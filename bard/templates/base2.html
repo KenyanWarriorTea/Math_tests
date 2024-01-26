@@ -15,27 +15,32 @@
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
 			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
+                     <div class="dropdown21">
+    <button class="dropbtn" id="menuBtn1">Тілді ауыстуры</button>
+    <div class="dropdown21-content">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'set_language_kazakh' %}">Қазақ тілі</a>
+            <a href="{% url 'set_language_russian' %}">Русский язык</a>
+      {% endif %}
+    </div>
+</div>
+
             <div class="dropdown2">
     <button class="dropbtn" id="menuBtn">Меню</button>
     <div class="dropdown2-content">
         {% if request.user.is_authenticated %}
-                 <a href="{% url 'set_language_russian' %}">Перевести сайт на русский язык</a>
             <a href="{% url 'profile' %}">{{user.username}}(профиль)</a>
             <a href="{% url 'logout' %}">Шығу</a>
                 {% else %}
-                <a href="{% url 'set_language_russian' %}">Перевести сайт на русский язык</a>
             <a href="{% url 'register' %}">Тіркелу</a>
             <a href="{% url 'login' %}">Кіру</a>
                  {% endif %}
     </div>
 </div>
-{% for m in menu %}
-
-{% endfor %}
 				{% if request.user.is_authenticated %}
-                <li class="last"><a href="{% url 'set_language_russian' %}">Перевести сайт на русский язык</a> | <a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Шығу</a></li>
+                <li class="last"><a href="{% url 'profile' %}">{{user.username}}</a> | <a href="{% url 'logout' %}">Шығу</a></li>
                 {% else %}
-                <li class="last"><a href="{% url 'set_language_russian' %}">Перевести сайт на русский язык</a> | <a href="{% url 'register' %}">Тіркелу</a> | <a href="{% url 'login' %}">Кіру</a></li>
+                <li class="last"><a href="{% url 'register' %}">Тіркелу</a> | <a href="{% url 'login' %}">Кіру</a></li>
                  {% endif %}
 			</ul>
 			<div class="clear"></div>
@@ -69,19 +74,35 @@
 <!-- Конец Sidebar'а -->
 <td valign="top" class="content">
 	<!-- Хлебные крошки -->
-    <script>
+  <script>
   document.addEventListener("DOMContentLoaded", function() {
     const menuButton = document.getElementById("menuBtn");
     const dropdownContent = document.querySelector(".dropdown2-content");
 
+
     menuButton.addEventListener("click", function(event) {
-        dropdownContent.style.display = (dropdownContent.style.display === "none") ? "block" : "none"; // Изменяем стиль отображения
+        dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block"; // Изменяем стиль отображения
         event.stopPropagation();
     });
 
     document.addEventListener("click", function(event) {
         if (!event.target.matches("#menuBtn")) {
-            dropdownContent.style.display = "none";
+            dropdownContent.style.display = "none"; // Скрываем выпадающий список при клике вне кнопки
+        }
+    });
+});
+    document.addEventListener("DOMContentLoaded", function() {
+    const menuButton = document.getElementById("menuBtn1");
+    const dropdownContent = document.querySelector(".dropdown21-content");
+
+    menuButton.addEventListener("click", function(event) {
+        dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block"; // Изменяем стиль отображения
+        event.stopPropagation();
+    });
+
+    document.addEventListener("click", function(event) {
+        if (!event.target.matches("#menuBtn1")) {
+            dropdownContent.style.display = "none"; // Скрываем выпадающий список при клике вне кнопки
         }
     });
 });

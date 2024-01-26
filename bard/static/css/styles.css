@@ -14,6 +14,11 @@ input[type="reset"]:hover {
                 0px 0px 10px #007bff;
     transition: box-shadow 0.3s ease-in-out;
 }
+
+.dropdown21-content, .dropdown2-content {
+    display: none;
+    /* Остальные свойства оставляем без изменений */
+}
 .dropdown2{
 	display: none;
 }
@@ -28,10 +33,10 @@ input[type="reset"]:hover {
         display: block;
         position: absolute;
         top: 10px;
-        right: 0;
+        right: 10px;
     }
     .dropdown2-content {
-        display: flex; /* Используем flex вместо -o-flex */
+        display: none; /* Используем flex вместо -o-flex */
         flex-wrap: wrap;
         max-height: 350px;
         overflow-y: auto;
@@ -47,9 +52,6 @@ input[type="reset"]:hover {
         padding: 12px 16px;
         text-decoration: none;
         display: block;
-    }
-    .dropdown2:hover .dropdown2-content {
-        display: block; /* Показываем выпадающий список при наведении */
     }
 }
 
@@ -172,6 +174,7 @@ input[type="reset"]:hover {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
 
 .form-label {
     display: block;
@@ -872,4 +875,80 @@ header228 h2 {
   header228 h2 {
     font-size: 1em;
   }
+}
+
+
+
+/* Скрываем выпадающий список по умолчанию */
+.dropdown21-content {
+    display: none;
+}
+
+.dropdown21 {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 69px;
+    }
+.dropdown21-content {
+        display: none; /* Используем flex вместо -o-flex */
+        flex-wrap: wrap;
+        max-height: 350px;
+        overflow-y: auto;
+        position: absolute;
+        left: 0px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 9;
+}
+.dropdown21-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+}
+@media screen and (max-width: 768px) {
+    .dropdown21 {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 69px;
+    }
+}
+.password-reset-form,
+.password-reset-done,
+.password-reset-confirm,
+.password-reset-complete {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.password-reset-form h2,
+.password-reset-done h2,
+.password-reset-confirm h2,
+.password-reset-complete h2 {
+    color: #333;
+}
+
+form {
+    margin-top: 15px;
+}
+
+button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
 }

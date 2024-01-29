@@ -1,0 +1,954 @@
+
+button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+    box-shadow: 0px 0px 5px #4CAF50,
+                0px 0px 30px #4CAF50,
+                0px 0px 90px #4CAF50;
+    transition: box-shadow 0.3s ease-in-out;
+}
+.create-class-button:hover{
+    box-shadow: 0px 0px 2px #007bff,
+                0px 0px 10px #007bff,
+                0px 0px 10px #007bff;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.dropdown21-content, .dropdown2-content {
+    display: none;
+    /* Остальные свойства оставляем без изменений */
+}
+.dropdown2{
+	display: none;
+}
+/* Скрываем выпадающий список по умолчанию */
+.dropdown2-content {
+    display: none;
+}
+
+/* Остальные стили остаются без изменений */
+@media screen and (max-width: 768px) {
+    .dropdown2 {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    .dropdown2-content {
+        display: none; /* Используем flex вместо -o-flex */
+        flex-wrap: wrap;
+        max-height: 350px;
+        overflow-y: auto;
+        position: absolute;
+        right: 0px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 9;
+    }
+    .dropdown2-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+}
+
+
+.profile-container {
+    max-width: 1600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f4f8ff; /* Light blue background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-container h1, .profile-container h2 {
+    color: #205081; /* Darker blue for headings */
+}
+
+.profile-info, .test-result {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border-left: 5px solid #205081; /* Blue border on the left */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.profile-info p, .test-result p {
+    font-size: 16px;
+    color: #666;
+}
+
+.profile-info span, .test-result span {
+    font-weight: bold;
+    color: #007bff; /* Standard blue for text emphasis */
+}
+
+
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.list-group-item {
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between items */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
+
+.list-group-item a {
+    color: #007bff !important; /* Force all links to be blue */
+    text-decoration: none; /* Removes underline from links */
+}
+
+.list-group-item:hover {
+    transform: scale(1.02); /* Slightly enlarges the item on hover */
+    background-color: #e2e6ea; /* Changes background on hover */
+}
+.list-group-item {
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 10px; /* Rounded corners */
+    margin-bottom: 10px; /* Space between items */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
+.dropdown {
+    position: fixed;
+    right: 50px;
+    top: 80px;
+}
+
+.dropdown-content {
+	display: flex;
+    flex-wrap: wrap;
+    max-height: 350px;
+    overflow-y: auto;
+    position: absolute;
+    right: 0px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 3;
+}
+#dropdownSearch {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+.dropbtn {
+    background-color: #4CAF50; /* Зеленый фон */
+    color: white; /* Белый текст */
+    padding: 10px 15px; /* Внутренние отступы */
+    border: none; /* Убрать границу */
+    cursor: pointer; /* Курсор в виде руки */
+    border-radius: 5px; /* Скругленные углы */
+    font-size: 16px; /* Размер шрифта */
+}
+
+.dropbtn:hover {
+    background-color: #45a049; /* Темнее зеленый при наведении */
+}
+.answered {
+    background-color: #4CAF50; /* Зеленый фон */
+    color: white; /* Белый текст */
+}
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-field {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-error {
+    color: #ff0000;
+    margin-bottom: 10px;
+}
+
+.submit-buttonreg {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-buttonreg:hover {
+    background-color: #45a049;
+}
+
+html, body {
+	font-family: 'Arial';
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	color: #444;
+}
+.custom-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #0059b2;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+.custom-button:hover {background-color: #007bff;
+                        color: #fff;
+}
+.answered {
+    background-color: #4CAF50; /* Зеленый фон */
+    color: white; /* Белый текст */
+}
+
+.custom-button:active {
+    background-color: #007bff;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+ul.tests li {
+    list-style-type: none; /* Убираем маркеры списка */
+    margin-bottom: 5px; /* Отступ между боксами */
+}
+
+ul.tests li a {
+    display: block; /* Ссылка будет вести себя как блочный элемент */
+    background-color: #f0f0f0; /* Цвет фона для каждого бокса */
+    border: 1px solid #ddd; /* Граница вокруг каждого бокса */
+    padding: 10px; /* Внутренний отступ внутри каждого бокса */
+    color: inherit; /* Наследование цвета текста */
+    text-decoration: none; /* Убрать подчеркивание текста */
+}
+
+ul.tests li a:hover {
+    background-color: #e0e0e0; /* Изменение фона при наведении */
+    /* Можно добавить другие стили для наведения, если нужно */
+}
+
+a {
+	color: #0059b2;
+	text-decoration: none;
+}
+a:hover {
+	color: #CC0000;
+	text-decoration: underline;
+}
+
+img {max-width: 600px; height: auto;}
+
+img.img-article-left {
+	max-width: 300px;
+	height: auto;
+	float: left;
+	padding: 0 10px 10px 0;
+}
+
+img.img-article-left.thumb {
+	max-width: 150px;
+	height: auto;
+}
+
+p.link-read-post {
+	text-align: right;
+}
+p.link-read-post a {
+	padding: 10px;
+	min-width: 100px;
+	background: #333671;
+	color: #fff;
+	text-decoration: none;
+}
+
+div.article-panel {
+    background: #eee;
+    padding: 5px 10px 5px 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: #555;
+}
+.submit-button {
+    background-color: #4CAF50; /* Зеленый */
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+.custom-test-button {
+    display: inline-block; /* Делаем ссылку блочно-строчным элементом */
+    padding: 10px 20px; /* Добавляем внутренние отступы */
+    background-color: #007bff; /* Цвет фона */
+    color: white; /* Цвет текста */
+    text-align: center;
+    text-decoration: none; /* Убираем подчеркивание текста */
+    border-radius: 5px; /* Скругляем углы */
+    font-weight: bold; /* Делаем текст жирным */
+    transition: background-color 0.3s, color 0.3s; /* Добавляем плавный переход для цвета фона и текста */
+}
+
+.custom-test-button:hover {
+    background-color: #0056b3; /* Меняем цвет фона при наведении */
+    color: #ffd700; /* Меняем цвет текста при наведении */
+}
+
+div.article-panel p.first {
+    margin: 0;
+    float: left;
+}
+div.article-panel p.last {
+    margin: 0;
+    float: right;
+}
+
+ul.list-articles {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.list-articles li {
+	border-bottom: 1px solid #ccc;
+}
+
+.table-page {
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+}
+.table-page tr {height: 100%;}
+
+.clear {clear: both;}
+
+.header {
+    position: -ms-device-fixed;
+    top: 0;
+    background: #0059b2;
+    z-index: 1000;
+}
+/* Стили для вопросов и ответов */
+.question-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.question-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.answer-label {
+    margin-left: 10px;
+}
+
+/* Стили для нумерации вопросов */
+.question-number {
+    font-weight: bold;
+    color: #007bff;
+}
+
+
+.logo {
+	background: url('../images/logo.png') no-repeat 10px 5px;
+	width: 80px;
+	height: 80px;
+}
+
+ul.mainmenu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 60px;
+	color: #fdc073;
+	font-size: 20px;
+	overflow: hidden;
+}
+ul.mainmenu li {
+	float: left;
+	margin: 18px 40px 0 30px;
+}
+ul.mainmenu li.logo {margin: 0;}
+ul.mainmenu li.last {float: right;}
+
+ul.mainmenu li a {
+	color: #fdc073;
+	text-decoration: none;
+}
+ul.mainmenu li a:hover {
+	color: #FDA83D;
+}
+
+.panelitems {
+	text-align: center;
+}
+
+ul.langitem {
+	list-style: none;
+	display: inline-block;
+	margin: 30px;
+	padding: 0;
+	max-width: 300px
+}
+ul.langitem li {
+	margin: 10px 0 0 0;
+	width: 100%;
+}
+ul.langitem li.image {
+	margin: 0;
+	text-align: center;
+	width: 100%;
+	height: 250px;
+	overflow: hidden;
+}
+ul.langitem li.descr {
+	color: #777;
+	height: 170px;
+	overflow: hidden;
+}
+ul.langitem li a {
+	color: #fdc073;
+	text-decoration: none;
+	font-size: 20px;
+}
+ul.langitem li a:hover {
+	color: #FDA83D;
+}
+div.button {
+	background: #3F4137;
+	max-width: 200px;
+	margin: 0 auto;
+	padding: 5px 20px 5px 20px;
+	border-radius: 10px;
+	font-size: 20px;
+}
+
+.table-content {
+	width: 100%;
+	min-height: 100%;
+	height: 100%;
+}
+
+.left-chapters {
+	margin: 0;
+	background: #eee;
+	border-right: 1px solid #ccc;
+	min-height: 100%;
+}
+.left-chapters ul {
+	width: 230px;
+	min-height: 100%;
+	margin: 0;
+	padding: 20px 10px 10px 20px;
+	list-style: none;
+	font-size: 20px;
+}
+.left-chapters ul li {
+	margin: 30px 0 0 0;
+	color: #999;
+}
+.left-chapters ul li.selected {color: #0059b2; }
+.left-chapters ul li a {
+	color: #444;
+	text-decoration: none;
+}
+.left-chapters ul li a:hover { color: #CC0000; }
+.left-chapters ul li.share {margin: 60px 0 0 0;}
+.left-chapters ul li.share p {margin: 30px 0 30px 0;}
+.left-chapters ul li.share a {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	margin: 0 20px 0 0;
+}
+.content {
+	padding: 40px 20px 20px 40px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+ul.breadcrumbs {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 20px;
+	font-family: Sans-serif, Arial, Tahoma;
+}
+ul.breadcrumbs li {
+	display: inline-block;
+}
+ul.breadcrumbs li a {
+	color: #0059b2;
+	text-decoration: none;
+}
+ul.breadcrumbs li a:hover { color: #CC0000; }
+ul.breadcrumbs li:after{
+	padding: 0 10px 0 10px;
+	content: "\2192";
+}
+ul.breadcrumbs li.last:after {content: "";}
+
+ul.control {
+	margin: 0;
+	padding: 60px 0 0 0;
+	list-style: none;
+	font-family: Sans-serif, Arial, Tahoma;
+	font-size: 18px;
+	width: 100%;
+}
+ul.control li {	float: left; padding: 0 0 0 10px;}
+ul.control li.first:before {content: "\2190"; padding: 0 10px 0 0;}
+ul.control li.last {float: right; padding: 0 40px 0 0;}
+ul.control li.last:after {content: "\2192"; padding: 0 0 0 10px;}
+ul.control li a { color: #0059b2; text-decoration: none; }
+ul.control li a:hover { color: #CC0000; }
+
+ul.content-table {
+	margin: 0;
+	padding: 60px 0 0 30px;
+	list-style: none;
+	font-family: Sans-serif, Arial, Tahoma;
+	font-size: 28px;
+}
+ul.content-table li {
+	margin: 0 0 40px 0;
+}
+ul.content-table li a {
+	color: #BB5715;
+	text-decoration: none;
+}
+ul.content-table li a:hover {color: #F0711C;}
+
+.content-text {
+	margin: 60px 0 0 30px;
+	color: #000;
+	font-size: 20px;
+	font-family: Yandex Sans Display Light;
+}
+.content-text h1 {font-size: 32px;}
+
+ul.lang-list li {
+	display: inline-block;
+	margin-left: 40px;
+}
+.topic-subject .topic-line {
+	border-bottom: 1px solid #CC0000;
+	margin-top: -16px;
+}
+
+.topic-subject .topic-text {
+	display: inline-block;
+	font-size: 28px;
+	color: #777;
+	padding: 0 10px 0 10px;
+	margin-left: 30px;
+	background: #fff;
+	font-family: Sans-serif, Arial, Tahoma;
+}
+
+.list-topic {
+	margin: 40px 0 60px 0;
+	font-family: Sans-serif, Arial, Tahoma;
+}
+.list-topic p {
+	margin: 0;
+	font-size: 28px;
+}
+.list-topic ol {
+	columns: 2;
+	-webkit-columns: 2;
+	column-gap: 40px;
+}
+.list-topic ol li {
+	display: list-item;
+	margin: 10px 10px 0 0px;
+	padding: 0 0 0 10px;
+}
+.list-topic ol li a {
+	color: #0059b2;
+	text-decoration: none;
+}
+.list-topic ol li a:hover {color: #CC0000;}
+
+.highlight {
+	max-width: 350px;
+	padding: 0 10px 0 10px;
+	margin: 0;
+	overflow: auto;
+	overflow-y: hidden;
+	background: #f0f0f0;
+}
+.highlight p { margin: 0; }
+.highlight .block {
+	width: 100%;
+	margin: 0;
+}
+.highlight .block p { margin: 0; }
+
+
+#footer {
+	box-sizing: border-box;
+
+	background: #3F4137;
+	padding: 5px;
+	color: #aaa;
+	font-size: 14px;
+	font-family: Verdana, Geneva, Arial, Helvetica, serif;
+	text-align: left;
+	overflow: hidden;
+}
+#footer a {
+	text-decoration: underline;
+	color: #aaa;
+}
+
+.form-input {
+    width: 300px;
+    font-size: 16px;
+}
+
+.form-label {
+    display: inline-block;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+.form-error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+
+.form-button {
+    min-width: 200px;
+    font-size: 16px;
+}
+
+.list-pages {
+	text-align: center;
+	margin: 0 0 20px 0;
+}
+.list-pages ul {
+	margin: 20px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+.list-pages ul li {
+	display: inline-block;
+	margin: 0 20px 0 0;
+}
+.list-pages a {
+	color: #000;
+	font-size: 24px;
+	text-decoration: none;
+}
+.list-pages .page-num, .page-num-selected {
+	display: inline-block;
+	width: 60px;
+	height: 44px;
+	padding: 16px 0 0 0;
+	border: 1px solid #d0d0d0;
+	border-radius: 30px;
+}
+.list-pages .page-num:hover {
+	box-shadow: 3px 3px 1px #d0d0d0;
+}
+.list-pages .page-num-selected {
+	border: none;
+	color: #000;
+	font-size: 20px;
+}
+.list-pages .page-num-selected:hover {
+	box-shadow: none;
+}
+@media (max-width: 768px) {
+    /* Стили для мобильных устройств */
+    .mainmenu {
+        /* Пример: уменьшение размера шрифта для меню */
+        font-size: 14px;
+    }
+
+    .custom-button, .submit-button, .custom-test-button {
+        /* Пример: уменьшение размера кнопок */
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    ul.tests li, ul.mainmenu li, .left-chapters ul li {
+        /* Пример: уменьшение отступов */
+        margin-bottom: 3px;
+    }
+
+    .left-chapters ul {
+        /* Пример: уменьшение ширины боковой панели */
+        width: 100%;
+        padding: 10px;
+    }
+	ul.mainmenu li.last {
+		width: 100%;
+	}
+
+    .content {
+        /* Пример: уменьшение отступов для основного содержимого */
+        padding: 20px;
+    }
+
+    /* Дополнительные стили для мобильных устройств */
+}
+@media (max-width: 768px) {
+
+	.mainmenu {
+        background-color: #0059b2; /* Или любой другой желаемый цвет фона */
+        width: 100%;
+        top: 10px; /* Убедитесь, что это значение корректно для вашего шаблона */
+        left: 0;
+        z-index: 9099; /* Убедитесь, что это значение выше, чем у других элементов */
+		padding: 100px;
+    }
+
+    .mainmenu.active {
+        display: block;
+    }    }
+
+
+.tooltip {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.tooltip.show {
+    display: block;
+}
+.create-class-button {
+    background-color: #007bff; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    padding: 10px 20px; /* Отступы вокруг текста */
+    border: none; /* Убираем границу */
+    border-radius: 5px; /* Скругляем углы */
+    text-decoration: none; /* Убираем подчеркивание текста */
+}
+
+.create-class-button:hover {
+    background-color: #0056b3; /* Изменяем цвет фона при наведении */
+    color: #fff;
+}
+.card {
+  width: 150px;
+  height: 150px;
+  perspective: 150px;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.444s;
+}
+
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+
+}
+
+.card-front {
+  background-color: #0056b3;
+  background-image: url('/static/images/topic1.png');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  border: 2px solid #0056b3;
+  border-radius: 2px;
+  justify-content: center;
+  font-size: 24px;
+  transform: rotateY(0deg);
+  color: #f8f9fa; /* Цвет текста */
+  -webkit-text-stroke: 1px #000000; /* Толщина и цвет обводки */
+  text-stroke: 1px #000000; /* Толщина и цвет обводки (стандартное свойство) */
+}
+
+.card-back {
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  border: 10px solid #007bff;
+  border-radius: 10px;
+  justify-content: center;
+  font-size: 16px;
+  transform: rotateY(180deg);
+}
+
+
+header228 {
+  background-color: #2E86C1; /* Синий фон, соответствующий образовательной теме */
+  color: #0059b2; /* Белый текст для контраста */
+  padding: 20px 0; /* Вертикальный отступ */
+  text-align: center; /* Центрирование текста */
+  border-bottom: 5px solid #21618C; /* Темно-синяя линия для акцента */
+}
+
+/* Стили для основного заголовка */
+header228 h1 {
+  margin: 0; /* Убираем стандартные отступы */
+  font-size: 3em; /* Увеличенный размер шрифта */
+  font-weight: bold; /* Жирное начертание */
+}
+
+/* Стили для подзаголовка */
+header228 h2 {
+  margin: 10px 0; /* Отступ сверху и снизу */
+  font-size: 1.5em; /* Меньший размер шрифта, чем у основного заголовка */
+  font-weight: lighter; /* Светлое начертание */
+}
+
+/* Добавляем немного стилей для адаптивности на мобильных устройствах */
+@media (max-width: 768px) {
+  header228 h1 {
+    font-size: 2em; /* Меньший размер шрифта для устройств с маленьким экраном */
+  }
+  header228 h2 {
+    font-size: 1em;
+  }
+}
+
+
+
+/* Скрываем выпадающий список по умолчанию */
+.dropdown21-content {
+    display: none;
+}
+
+.dropdown21 {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 69px;
+    }
+.dropdown21-content {
+        display: none; /* Используем flex вместо -o-flex */
+        flex-wrap: wrap;
+        max-height: 350px;
+        overflow-y: auto;
+        position: absolute;
+        left: 0px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 9;
+}
+.dropdown21-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+}
+@media screen and (max-width: 768px) {
+    .dropdown21 {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 69px;
+    }
+}
+.password-reset-form,
+.password-reset-done,
+.password-reset-confirm,
+.password-reset-complete {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.password-reset-form h2,
+.password-reset-done h2,
+.password-reset-confirm h2,
+.password-reset-complete h2 {
+    color: #333;
+}
+
+form {
+    margin-top: 15px;
+}
+
+button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}

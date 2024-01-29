@@ -35,7 +35,9 @@ class UserProfile(models.Model):
 
 class Test(models.Model):
     title = models.CharField(max_length=200)
-    # что то там
+
+    def __str__(self):
+        return self.title  # Возвращает название теста
 
 
 class ClassroomJoinRequest(models.Model):
@@ -85,6 +87,9 @@ class TestResult(models.Model):
 class MathTopic(models.Model):
     title = models.CharField(max_length=100)
     description = RichTextField()
+
+    def __str__(self):
+        return self.title
 
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)

@@ -6,6 +6,7 @@ from django.contrib import admin
 from .models import Test, Question, Answer
 from nested_admin import NestedStackedInline, NestedModelAdmin
 # Register your models here.
+from django import forms
 
 from django.contrib import admin
 from .models import Classroom
@@ -45,7 +46,7 @@ class ClassroomAdmin(admin.ModelAdmin):
 admin.site.register(Classroom, ClassroomAdmin)
 class AnswerInline(NestedStackedInline):
     model = Answer
-    extra = 1  # Количество форм для новых ответов
+    extra = 4  # Количество форм для новых ответов
 
 class QuestionInline(NestedStackedInline):
     model = Question
@@ -61,12 +62,35 @@ class TestAdmin(NestedModelAdmin):
 
 @admin.register(MathTopic)
 class MathTopicAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['title']
+
+
+
+class QuestionAdminForm(forms.ModelForm):
+    test = forms.ModelChoiceField(queryset=Test.objects.all(), label="Test", required=False,
+                                  widget=forms.Select(), empty_label="Select Test")
+    math_topic = forms.ModelChoiceField(queryset=MathTopic.objects.all(), label="Math Topic", required=False,
+                                        widget=forms.Select(), empty_label="Select Math Topic")
+
+    class Meta:
+        model = Question
+        fields = '__all__'
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['text', 'test', 'math_topic']
+    form = QuestionAdminForm
+    list_display = ('text', 'get_test_title')
     inlines = [AnswerInline]
+    fields = ('test', 'text')
+    def get_test_title(self, obj):
+        return obj.test.title if obj.test else 'No test'
+
+    def get_math_topic_title(self, obj):
+        return obj.math_topic.title if obj.math_topic else 'No math topic'
+    get_test_title.short_description = 'Test Title'
+    get_math_topic_title.short_description = 'Math Topic Title'
+
+
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):

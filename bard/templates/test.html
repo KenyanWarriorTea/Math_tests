@@ -79,11 +79,10 @@
          {% csrf_token %}
 
         {% for question in questions %}
-    <div class="question-container" id="question_{{ forloop.counter }}">
-        <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text }}</p>
+        <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text|safe }}</p>
         {% for answer in question.answer_set.all %}
             <input type="radio" name="{{ question.id }}" value="{{ answer.text }}" id="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
-            <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text }}</label><br>
+            <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text| safe}}</label><br>
         {% endfor %}
             </div>
             {% if forloop.counter >= 30 %}

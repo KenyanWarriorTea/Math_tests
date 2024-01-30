@@ -142,3 +142,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        # ... другие настройки CKEditor ...
+        'enterMode': 2,  # использует <br> вместо <p> для нового абзаца
+        'shiftEnterMode': 1,  # использует <p> для новой строки при Shift+Enter
+        # ... другие настройки CKEditor ...
+    },
+}

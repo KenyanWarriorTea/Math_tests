@@ -77,17 +77,14 @@
     <h1>{{ test.title }}</h1>
     <form method="post" action="{% url 'process_test' test.id %}">
          {% csrf_token %}
-
 {% for question in questions %}
-<div class="question-container">
-    <span class="question-number">Вопрос {{ forloop.counter }}:</span>
-    <span class="question-text">{{ question.text|safe }}</span>
-</div>
-{% for answer in question.answer_set.all %}
-    <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" id="answer_{{ question.id }}_{{ forloop.counter }}">
-    <label for="answer_{{ question.id }}_{{ forloop.counter }}">{{ answer.text|safe }}</label><br>
+    <div class="question-container">
+        <p class="question-title"><span class="question-number">Вопрос {{ forloop.counter }}:</span> {{ question.text|safe }}</p>
+    </div>
+        {% for answer in question.answer_set.all %}
+            <input type="radio" name="{{ question.id }}" value="{{ answer.text }}" id="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">
+            <label class="answer-label" for="answer_{{ forloop.parentloop.counter }}_{{ forloop.counter }}">{{ answer.text| safe}}</label><br>
         {% endfor %}
-
             {% if forloop.counter >= 30 %}
                 {% for question in questions %}
                                                 {% endfor %}

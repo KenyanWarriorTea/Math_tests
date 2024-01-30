@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.utils.html import strip_tags
+
 from .models import MathTopic
 from django.contrib import admin
 from .models import Test, Question, Answer
@@ -46,7 +46,7 @@ class ClassroomAdmin(admin.ModelAdmin):
 admin.site.register(Classroom, ClassroomAdmin)
 class AnswerInline(NestedStackedInline):
     model = Answer
-    extra = 4  # Количество форм для новых ответов
+    extra = 1  # Количество форм для новых ответов
 
 class QuestionInline(NestedStackedInline):
     model = Question
@@ -79,7 +79,7 @@ class QuestionAdminForm(forms.ModelForm):
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     form = QuestionAdminForm
-    list_display = ('formatted_text', 'get_test_title')
+    list_display = ('text', 'get_test_title')
     inlines = [AnswerInline]
     fields = ('test', 'text')
     def get_test_title(self, obj):
@@ -89,12 +89,6 @@ class QuestionAdmin(admin.ModelAdmin):
         return obj.math_topic.title if obj.math_topic else 'No math topic'
     get_test_title.short_description = 'Test Title'
     get_math_topic_title.short_description = 'Math Topic Title'
-
-    def formatted_text(self, obj):
-        return strip_tags(obj.text)
-
-    formatted_text.short_description = 'Text'
-
 
 
 

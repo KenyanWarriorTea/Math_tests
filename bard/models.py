@@ -48,6 +48,7 @@ class ClassroomJoinRequest(models.Model):
 
     def __str__(self):
         return f"Запрос от {self.student.username} в класс {self.classroom.name}"
+
 class UserTestResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
@@ -118,3 +119,16 @@ class Category(models.Model):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['id']
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class TestResult1(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    test_name = models.CharField(max_length=255)
+    score = models.IntegerField()
+    date_taken = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.test_name} - {self.score}"

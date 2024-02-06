@@ -5,6 +5,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView
 from .mixin import UnauthenticatedUserMixin
+from django.shortcuts import redirect
+from .models import TestResult1, Test
+from django.utils import timezone
 from .forms import *
 from .utils import *
 from django.shortcuts import get_object_or_404
@@ -370,6 +373,10 @@ def process_test(request, test_id):
             # Update the best result if it's better than the previous one
             if score > user_test_result.best_score:
                 user_test_result.best_score = score
+            date_taken = timezone.now()
+            test_result = TestResult1(user=user, test_name=test.title, score=score, date_taken=date_taken)
+
+            test_result.save()
 
             user_test_result.save()
             total_questions = test.question_set.count()
@@ -382,7 +389,7 @@ def process_test(request, test_id):
 @login_required
 def test_history(request, test_id):
     test = get_object_or_404(Test, pk=test_id)
-    test_results = TestResult.objects.filter(test=test).order_by('-date_taken')
+    test_results = TestResult1.objects.filter(test_name=test.title).order_by('-date_taken')
 
     context = {
         'test': test,

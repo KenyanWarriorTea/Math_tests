@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-
+from django.utils.html import strip_tags
 from .models import MathTopic
 from django.contrib import admin
 from .models import Test, Question, Answer
+from django.utils.safestring import mark_safe
 from nested_admin import NestedStackedInline, NestedModelAdmin
 # Register your models here.
 from django import forms
@@ -46,7 +47,7 @@ class ClassroomAdmin(admin.ModelAdmin):
 admin.site.register(Classroom, ClassroomAdmin)
 class AnswerInline(NestedStackedInline):
     model = Answer
-    extra = 1  # Количество форм для новых ответов
+    extra = 4  # Количество форм для новых ответов
 
 class QuestionInline(NestedStackedInline):
     model = Question
@@ -83,8 +84,11 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = [AnswerInline]
     fields = ('test', 'text')
     def get_test_title(self, obj):
-        return obj.test.title if obj.test else 'No test'
+        return mark_safe(obj.test.title) if obj.test else 'No test'
 
+    def clean_text(self):
+        text = self.cleaned_data.get('text', '')
+        return strip_tags(text)
     def get_math_topic_title(self, obj):
         return obj.math_topic.title if obj.math_topic else 'No math topic'
     get_test_title.short_description = 'Test Title'

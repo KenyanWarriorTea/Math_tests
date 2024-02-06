@@ -1,6 +1,6 @@
 import random
 from django.utils import timezone
-
+from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 from django.urls import reverse
 from ckeditor.fields import RichTextField
@@ -97,6 +97,10 @@ class Question(models.Model):
     text = RichTextField()
     math_topic = models.ForeignKey(MathTopic, on_delete=models.SET_NULL, null=True, blank=True)
     # Остальные поля...
+    def save(self, *args, **kwargs):
+        # Удаляем HTML-теги из текста перед сохранением
+        self.text = strip_tags(self.text)
+        super(Question, self).save(*args, **kwargs)
 
 class Language(models.Model):
     code = models.CharField(max_length=10, unique=True)  # Например, 'ru' или 'kz'

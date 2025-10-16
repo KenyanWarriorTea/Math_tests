@@ -5,7 +5,7 @@ This project includes backend logic, front-end views, and test management featur
 
 ---
 
-## 🧩 Features
+##  Features
 
 - Create, edit, and delete math tests / quizzes  
 - Add questions, solutions, hints  
@@ -16,7 +16,7 @@ This project includes backend logic, front-end views, and test management featur
 
 ---
 
-## 🏗 Project Structure
+## Project Structure
 
 Math_tests/
 ├── testsite/ # Main Django (or web framework) app
@@ -29,7 +29,7 @@ Math_tests/
 
 ---
 
-## 🛠 Installation & Setup
+##  Installation & Setup
 
 1. Clone the repository:  
    ```bash
